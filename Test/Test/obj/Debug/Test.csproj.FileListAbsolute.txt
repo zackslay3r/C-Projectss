@@ -1,0 +1,9 @@
+C:\Users\s171842\Documents\C# Projects\C#\Test\Test\bin\Debug\Test.exe.config
+C:\Users\s171842\Documents\C# Projects\C#\Test\Test\bin\Debug\Test.exe
+C:\Users\s171842\Documents\C# Projects\C#\Test\Test\bin\Debug\Test.pdb
+C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
+C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.Form1.resources
+C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.Properties.Resources.resources
+C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.csproj.GenerateResource.Cache
+C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.exe
+C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.pdb
