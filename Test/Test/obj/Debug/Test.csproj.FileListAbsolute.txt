@@ -7,3 +7,6 @@ C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.Properties.Re
 C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.csproj.GenerateResource.Cache
 C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.exe
 C:\Users\s171842\Documents\C# Projects\C#\Test\Test\obj\Debug\Test.pdb
+C:\Users\s171842\Documents\C# Projects\C-Projects\Test\Test\bin\Debug\Test.exe.config
+C:\Users\s171842\Documents\C# Projects\C-Projects\Test\Test\obj\Debug\Test.exe
+C:\Users\s171842\Documents\C# Projects\C-Projects\Test\Test\obj\Debug\Test.pdb
