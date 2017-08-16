@@ -15,13 +15,16 @@ namespace Test2
     public partial class Form1 : Form
     {
         Rectangle mRect;
+        // form points
         private Point p1 = new Point(-1, -1);
         private Point p2 = new Point(-1, -1);
         private Point r1 = new Point(-1, -1);
         private Point r2 = new Point(-1, -1);
 
-
-
+        //picture box points
+        private Point pic1 = new Point(-1, 1);
+        private Point pic2 = new Point(-1, 1);
+        Graphics Pic1G;
 
         public List<MouseEventArgs> positions = new List<MouseEventArgs>();
         public Form1()
@@ -33,7 +36,7 @@ namespace Test2
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
-
+            pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(pictureBox1_Paint);
         }
 
         ////Initiate rectangle with mouse down event
@@ -139,7 +142,7 @@ namespace Test2
             {
                // p2 = e.Location;
                 this.Invalidate();
-                textOutput.Text = r2.ToString() + r2.ToString();
+                textOutput.Text = r1.ToString() + r2.ToString();
             }
         }
 
@@ -207,6 +210,50 @@ namespace Test2
         private void buttonClear_Click(object sender, EventArgs e)
         {
             textOutput.Text = "";
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+           
+
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+
+
+
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                pic1 = e.Location;
+                
+            }
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                pic2 = e.Location;
+                textOutput.Text = pic1.ToString() + pic2.ToString();
+            }
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            if (pic1.X > 0 && pic1.Y > 0 && pic2.X > 0 && pic2.Y > 0)
+            {
+               e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(pic1.X, pic1.Y, pic2.X - pic1.X, pic2.Y - pic1.Y));                
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            pictureBox1.Refresh();
         }
         //private void PictureBox1_MouseDown(object sender, MouseEventArgs e)
         //{
