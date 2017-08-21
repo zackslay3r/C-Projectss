@@ -24,7 +24,114 @@ namespace Test2
         //picture box points
         private Point pic1 = new Point(-1, 1);
         private Point pic2 = new Point(-1, 1);
+
+        private Point rPic1 = new Point(-1, 1);
+        private Point rPic2 = new Point(-1, 1);
         Graphics Pic1G;
+        Stream myStream;
+
+        private void LoadNewPict()
+        {
+            // Wrap the creation of the OpenFileDialog instance in a using statement,
+            // rather than manually calling the Dispose method to ensure proper disposal
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+                dlg.Title = "Open Image";
+                dlg.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*";
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // PictureBox1 = new PictureBox();
+
+                    // Create a new Bitmap object from the picture file on disk,
+                    // and assign that to the PictureBox.Image property
+                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+
+                    pictureBox1.Image = Image.FromFile(dlg.FileName);
+
+                    //picBox.Image = PictureBox1.Image;
+
+                }
+            }
+        }
+        private void LoadUVCoords()
+        {
+
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+                dlg.Title = "Open UV";
+                dlg.Filter = "Text files (.txt)| *.txt";
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    //var data = File
+                    //.ReadAllLines(dlg.FileName)
+                    //.Select(x => x.Split('='))
+                    //.Where(x => x.Length > 1)
+                    //.ToDictionary(x => x[0].Trim(), x => x[1]);
+
+                    ////textOutput.Text += ("startpos: {0}" + data["startpos"]);
+                    ////textOutput.Text += ("endpos: {0}" +  data["endpos"]);
+                    ////textOutput.Text += ("startUV: {0}" + data["startUV"]);
+                    //pic1 = data["startpos"];
+                    //using (TextReader reader = File.OpenText(dlg.FileName))
+                    //{
+
+                    //    int x = int.Parse(reader.ReadLine());
+                    //    double y = double.Parse(reader.ReadLine());
+                    //    string z = reader.ReadLine();
+                    //}
+
+                    //var positions = File.ReadLines(dlg.FileName).Select(int.Parse);
+                    //var uvs = File.ReadLines(dlg.FileName).Select(float.Parse);
+                    //int index = 0;
+
+                    //foreach (var number in positions)
+                    //{
+                    //    numbers[index++] = number;
+                    //}
+                    //if ((myStream = dlg.OpenFile()) != null)
+                    //{
+                    //    using (var reader = new StreamReader(myStream))
+                    //    {
+
+
+                    //    }
+
+                    //}
+                    string[] file = File.ReadAllLines(dlg.FileName);
+                    int[] positions = new int[file.Length];
+                    float[] uvs = new float[file.Length];
+                    int counter = 0;
+
+                    foreach (var item in file)
+                    {
+                        string[] values = item.Split(',');
+                        if (counter <= 1)
+                        {
+                            positions[counter] = Convert.ToInt32(values[0]);
+                            positions[counter + 1] = Convert.ToInt32(values[1]);
+                            counter++;
+                        }
+                        else
+                        {
+                            uvs[counter] = Convert.ToSingle(values[2]);
+                            counter++;
+                            if (counter == 3)
+                            {
+                                counter = 0;
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+
+        }
+
+
 
         public List<MouseEventArgs> positions = new List<MouseEventArgs>();
         public Form1()
@@ -37,6 +144,7 @@ namespace Test2
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(pictureBox1_Paint);
+            pictureBox1.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
         }
 
         ////Initiate rectangle with mouse down event
@@ -106,8 +214,10 @@ namespace Test2
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
                 p1 = e.Location;
-            r1 = p1;
+                r1 = p1;
+            }
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
@@ -158,30 +268,6 @@ namespace Test2
         {
 
 
-            ////When the user clicks on the PictureBox,
-            // //the mouse coordinates will be written to the
-            // //TextBox.
-
-            //if (e.GetType() == typeof(MouseEventArgs))
-            //{
-            //    textOutput.Clear();
-
-            //    MouseEventArgs me = e as MouseEventArgs;
-            //    positions.Add(me);
-
-            //    foreach (MouseEventArgs element in positions)
-            //    {
-            //        //textOutput.Text += element.Location.ToString() + Environment.NewLine;
-            //    }
-
-
-            //    textOutput.Text += me.Location.ToString();
-
-            //    startPoint.x = e.X;
-            //    startPoint.y = e.Y;
-
-
-            //}
         }
 
         private void buttonExport_Click(object sender, EventArgs e)
@@ -189,7 +275,7 @@ namespace Test2
             Stream myStream;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             
-            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt";
             saveFileDialog1.FilterIndex = 2;
             saveFileDialog1.RestoreDirectory = true;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -220,7 +306,24 @@ namespace Test2
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                pic2 = e.Location;
+                rPic2 = pic2;
+            }
+            if (pic2.X < pic1.X)
+            {
+                rPic2.X = pic1.X;
+                rPic1.X = pic2.X;
 
+            }
+            if (pic2.Y < pic1.Y)
+            {
+                rPic2.Y = pic1.Y;
+                rPic1.Y = pic2.Y;
+
+            }
+            this.Invalidate();
 
 
         }
@@ -229,17 +332,53 @@ namespace Test2
         {
             if (e.Button == MouseButtons.Left)
             {
+
                 pic1 = e.Location;
-                
+                rPic1 = pic1;
             }
+            
+
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
+
+
+            
+
+
             if (e.Button == MouseButtons.Left)
             {
+
+                // This is the creation of temporary floats for the storage of UV calculations.
+                float startPointUVX, startPointUVY, endPointUVX, endPointUVY;
+                
+                // this will do the calculations of the UV for us dynamically.
+                startPointUVX = ((float)pic1.X / (float)pictureBox1.Width);
+                startPointUVY = ((float)pic1.Y / (float)pictureBox1.Height);
+
+                endPointUVX = ((float)pic2.X / (float)pictureBox1.Width);
+                endPointUVY = ((float)pic2.Y / (float)pictureBox1.Height);
+
+
+
+
                 pic2 = e.Location;
-                textOutput.Text = pic1.ToString() + pic2.ToString();
+                //textOutput.Text = "startpos =" + pic1.X.ToString() + " " + pic1.Y.ToString() + Environment.NewLine;
+                //textOutput.Text += "endpos =" + pic2.X.ToString() + " " + pic2.Y.ToString() + Environment.NewLine;
+                //textOutput.Text += "startUV =" + startPointUVX.ToString("n2") + ", " + startPointUVY.ToString("n2") + Environment.NewLine;
+                //textOutput.Text += "endUV =" + endPointUVX.ToString("n2") + ", " + endPointUVY.ToString("n2") + Environment.NewLine;
+                textOutput.Text = pic1.X.ToString() + "," + pic1.Y.ToString() + Environment.NewLine;
+                textOutput.Text += pic2.X.ToString() + "," + pic2.Y.ToString() + Environment.NewLine;
+                textOutput.Text += startPointUVX.ToString("n2") + "," + startPointUVY.ToString("n2") + Environment.NewLine;
+                textOutput.Text += endPointUVX.ToString("n2") + "," + endPointUVY.ToString("n2") + Environment.NewLine;
+
+
+
+                // Changes the text in the labels.
+                lblStartUVText.Text = startPointUVX.ToString("n2") + ", " + startPointUVY.ToString("n2");
+                lblEndUVText.Text = endPointUVX.ToString("n2") + ", " + endPointUVY.ToString("n2");
+
             }
         }
 
@@ -247,13 +386,23 @@ namespace Test2
         {
             if (pic1.X > 0 && pic1.Y > 0 && pic2.X > 0 && pic2.Y > 0)
             {
-               e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(pic1.X, pic1.Y, pic2.X - pic1.X, pic2.Y - pic1.Y));                
+               e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - rPic1.Y));                
             }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            pictureBox1.Refresh();
+           pictureBox1.Refresh();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            LoadNewPict();
+        }
+
+        private void btnUVLoad_Click(object sender, EventArgs e)
+        {
+            LoadUVCoords();
         }
         //private void PictureBox1_MouseDown(object sender, MouseEventArgs e)
         //{
