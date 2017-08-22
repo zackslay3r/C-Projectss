@@ -42,8 +42,15 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnLoadImage = new System.Windows.Forms.ToolStripButton();
             this.btnUVLoad = new System.Windows.Forms.ToolStripButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lblRectangles = new System.Windows.Forms.Label();
+            this.lblRecName = new System.Windows.Forms.Label();
+            this.txtRecName = new System.Windows.Forms.TextBox();
+            this.btnSaveRec = new System.Windows.Forms.Button();
+            this.lstItems = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -65,7 +72,7 @@
             this.textOutput.Location = new System.Drawing.Point(27, 76);
             this.textOutput.Multiline = true;
             this.textOutput.Name = "textOutput";
-            this.textOutput.Size = new System.Drawing.Size(192, 499);
+            this.textOutput.Size = new System.Drawing.Size(192, 100);
             this.textOutput.TabIndex = 1;
             // 
             // buttonExport
@@ -163,11 +170,72 @@
             this.btnUVLoad.Click += new System.EventHandler(this.btnUVLoad_Click);
             this.btnUVLoad.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lstItems);
+            this.panel1.Location = new System.Drawing.Point(19, 377);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 293);
+            this.panel1.TabIndex = 10;
+            // 
+            // lblRectangles
+            // 
+            this.lblRectangles.AutoSize = true;
+            this.lblRectangles.Location = new System.Drawing.Point(84, 354);
+            this.lblRectangles.Name = "lblRectangles";
+            this.lblRectangles.Size = new System.Drawing.Size(61, 13);
+            this.lblRectangles.TabIndex = 11;
+            this.lblRectangles.Text = "Rectangles";
+            // 
+            // lblRecName
+            // 
+            this.lblRecName.AutoSize = true;
+            this.lblRecName.Location = new System.Drawing.Point(356, 43);
+            this.lblRecName.Name = "lblRecName";
+            this.lblRecName.Size = new System.Drawing.Size(87, 13);
+            this.lblRecName.TabIndex = 12;
+            this.lblRecName.Text = "Rectangle Name";
+            // 
+            // txtRecName
+            // 
+            this.txtRecName.Location = new System.Drawing.Point(459, 40);
+            this.txtRecName.Name = "txtRecName";
+            this.txtRecName.Size = new System.Drawing.Size(100, 20);
+            this.txtRecName.TabIndex = 13;
+            // 
+            // btnSaveRec
+            // 
+            this.btnSaveRec.Location = new System.Drawing.Point(612, 37);
+            this.btnSaveRec.Name = "btnSaveRec";
+            this.btnSaveRec.Size = new System.Drawing.Size(112, 23);
+            this.btnSaveRec.TabIndex = 14;
+            this.btnSaveRec.Text = "Save Coords?";
+            this.btnSaveRec.UseVisualStyleBackColor = true;
+            this.btnSaveRec.Click += new System.EventHandler(this.btnSaveRec_Click);
+            // 
+            // lstItems
+            // 
+            this.lstItems.FormattingEnabled = true;
+            this.lstItems.Location = new System.Drawing.Point(8, 31);
+            this.lstItems.Name = "lstItems";
+            this.lstItems.Size = new System.Drawing.Size(189, 251);
+            this.lstItems.TabIndex = 0;
+            this.lstItems.SelectedIndexChanged += new System.EventHandler(this.lstItems_SelectedIndexChanged);
+            this.lstItems.SelectedValueChanged += new System.EventHandler(this.lstItems_SelectedValueChanged);
+            this.lstItems.DoubleClick += new System.EventHandler(this.lstItems_DoubleClick);
+            this.lstItems.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstItems_KeyDown);
+            this.lstItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstItems_MouseDown);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 682);
+            this.Controls.Add(this.btnSaveRec);
+            this.Controls.Add(this.txtRecName);
+            this.Controls.Add(this.lblRecName);
+            this.Controls.Add(this.lblRectangles);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.lblStartUVText);
             this.Controls.Add(this.lblEndUVText);
@@ -182,6 +250,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,6 +271,12 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnLoadImage;
         private System.Windows.Forms.ToolStripButton btnUVLoad;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lblRectangles;
+        private System.Windows.Forms.Label lblRecName;
+        private System.Windows.Forms.TextBox txtRecName;
+        private System.Windows.Forms.Button btnSaveRec;
+        private System.Windows.Forms.ListBox lstItems;
     }
 }
 

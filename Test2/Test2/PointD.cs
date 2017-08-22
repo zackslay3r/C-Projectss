@@ -17,6 +17,10 @@ namespace Test2
             y = yval;
         }
 
+        public PointD()
+        {
+           
+        }
     }
 
 

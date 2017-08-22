@@ -8,8 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-
+using Microsoft.VisualBasic;
 namespace Test2
 {
     public partial class Form1 : Form
@@ -31,20 +30,23 @@ namespace Test2
         Stream myStream;
 
 
-        private List<Point> startPoints = new List<Point>();
-        private List<Point> endPoints = new List<Point>();
+        Item tempItem = new Item();
+        List<Item> items = new List<Item>();
 
-        private List<PointD> startUVpoints = new List<PointD>();
-        private List<PointD> endUVpoints = new List<PointD>();
+        //private List<Point> startPoints = new List<Point>();
+        //private List<Point> endPoints = new List<Point>();
 
-        List<Rectangle> rectangles = new List<Rectangle>();
+        //private List<PointD> startUVpoints = new List<PointD>();
+        //private List<PointD> endUVpoints = new List<PointD>();
+
+        //List<Rectangle> rectangles = new List<Rectangle>();
 
         private int counter = 0;
 
 
         // UV points
         // This is the creation of temporary floats for the storage of UV calculations.
-        float startPointUVX, startPointUVY, endPointUVX, endPointUVY;
+        double startPointUVX, startPointUVY, endPointUVX, endPointUVY;
 
         private void LoadNewPict()
         {
@@ -84,19 +86,24 @@ namespace Test2
                     string[] file = File.ReadAllLines(dlg.FileName);
                     //int[] positions = new int[file.Length];
                     //double[] uvs = new double[file.Length];
-                    
-                    
+
+                    for (int i = 0; i <= file.Length; i++)
+                    {
+                        
+                    }
 
                     foreach (var item in file)
                     {
 
                         // This splits the values up
                         string[] values = item.Split( );
+                        
+                        
                         // This adds each point to their respective lists.
-                        startPoints.Add(new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
-                        endPoints.Add(new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
-                        startUVpoints.Add(new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
-                        endUVpoints.Add(new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
+                        //startPoints.Add(new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
+                        //endPoints.Add(new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
+                        //startUVpoints.Add(new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
+                        //endUVpoints.Add(new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
                         // increments the counter when everything is added.
                         
 
@@ -107,12 +114,12 @@ namespace Test2
                    
                     for (int i = 0; i < counter; i++)
                     {
-                        textOutput.Clear();
-                        textOutput.Text += startPoints.ElementAt(i).ToString() + Environment.NewLine;
-                        textOutput.Text += endPoints.ElementAt(i).ToString() + Environment.NewLine;
-                        textOutput.Text += startUVpoints.ElementAt(i).x.ToString() + " " + startUVpoints.ElementAt(i).y.ToString() + Environment.NewLine;
-                        textOutput.Text += endUVpoints.ElementAt(i).x.ToString() + " " + endUVpoints.ElementAt(i).y.ToString() + Environment.NewLine;
-                        rectangles.Add(new Rectangle(startPoints.ElementAt(i).X, startPoints.ElementAt(i).Y, endPoints.ElementAt(i).X - startPoints.ElementAt(i).X, endPoints.ElementAt(i).Y - startPoints.ElementAt(i).Y));
+                        //textOutput.Clear();
+                        //textOutput.Text += startPoints.ElementAt(i).ToString() + Environment.NewLine;
+                        //textOutput.Text += endPoints.ElementAt(i).ToString() + Environment.NewLine;
+                        //textOutput.Text += startUVpoints.ElementAt(i).x.ToString() + " " + startUVpoints.ElementAt(i).y.ToString() + Environment.NewLine;
+                        //textOutput.Text += endUVpoints.ElementAt(i).x.ToString() + " " + endUVpoints.ElementAt(i).y.ToString() + Environment.NewLine;
+                        //rectangles.Add(new Rectangle(startPoints.ElementAt(i).X, startPoints.ElementAt(i).Y, endPoints.ElementAt(i).X - startPoints.ElementAt(i).X, endPoints.ElementAt(i).Y - startPoints.ElementAt(i).Y));
                         
                     }
 
@@ -137,6 +144,7 @@ namespace Test2
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(pictureBox1_Paint);
             pictureBox1.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
+            lstItems.SelectedValueChanged += new EventHandler(lstItems_SelectedValueChanged);
         }
 
         ////Initiate rectangle with mouse down event
@@ -355,8 +363,15 @@ namespace Test2
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
+
             if (e.Button == MouseButtons.Left)
             {
+                tempItem.startPoint = new Point(-1, 1);
+                tempItem.endPoints = new Point(-1, 1);
+                tempItem.startUVpoint.x = 0.0;
+                tempItem.startUVpoint.y = 0.0;
+                tempItem.endUVpoint.x = 0.0;
+                tempItem.endUVpoint.y = 0.0;
 
                 pic1 = e.Location;
                 rPic1 = pic1;
@@ -384,7 +399,7 @@ namespace Test2
                 endPointUVX = ((float)pic2.X / (float)pictureBox1.Width);
                 endPointUVY = ((float)pic2.Y / (float)pictureBox1.Height);
 
-
+                
 
 
                 pic2 = e.Location;
@@ -403,6 +418,14 @@ namespace Test2
                 lblStartUVText.Text = startPointUVX.ToString("n2") + ", " + startPointUVY.ToString("n2");
                 lblEndUVText.Text = endPointUVX.ToString("n2") + ", " + endPointUVY.ToString("n2");
 
+
+                tempItem.startPoint = pic1;
+                tempItem.endPoints = pic2;
+                tempItem.startUVpoint.x = startPointUVX;
+                tempItem.startUVpoint.y = startPointUVY;
+                tempItem.endUVpoint.x = endPointUVX;
+                tempItem.endUVpoint.y = endPointUVY;
+
             }
         }
 
@@ -414,8 +437,63 @@ namespace Test2
             }
             for (int i = 0; i < counter; i++)
             {
-                e.Graphics.DrawRectangle(Pens.Red, rectangles.ElementAt(i));
+                //e.Graphics.DrawRectangle(Pens.Red, rectangles.ElementAt(i));
             }
+        }
+
+        private void btnSaveRec_Click(object sender, EventArgs e)
+        {
+            if (txtRecName != null)
+            {
+                lstItems.Items.Add(txtRecName.Text);
+                items.Add(tempItem);
+                tempItem = new Item();
+            }
+        }
+
+        private void lstItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //for(int i = 0; i < items.Count; i++)
+            //{
+            //    if(lstItems.SelectedIndex = items)
+            //}
+            //lblStartUVText.Text = " ";
+            //lblStartUVText.Text += items.ElementAt(lstItems.SelectedIndex).startUVpoint.x.ToString("n2") + " " + items.ElementAt(lstItems.SelectedIndex).startUVpoint.y.ToString("n2");
+
+            //textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString();
+            textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
+            textOutput.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
+            
+
+        }
+
+        private void lstItems_SelectedValueChanged(object sender, EventArgs e)
+        {
+            //textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString();
+        }
+
+        private void lstItems_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+       }
+
+        private void lstItems_MouseDown(object sender, MouseEventArgs e)
+        {
+            //for (int i = 0; i < items.Count(); i++)
+            //{
+            //    if (items.ElementAt(i).name == lstItems.SelectedItem.ToString())
+            //    {
+            //        textOutput.Text += items.ElementAt(i).startPoint.ToString();
+            //    }
+            //}
+        }
+
+        private void lstItems_DoubleClick(object sender, EventArgs e)
+        {
+            int index = lstItems.SelectedIndex;
+
+            textOutput.Text = items.ElementAt(index).startPoint.ToString();
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
