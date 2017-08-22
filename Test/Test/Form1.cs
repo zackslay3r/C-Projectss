@@ -20,7 +20,7 @@ namespace Test
         }
         private void LoadNewPict()
         {
-             // Wrap the creation of the OpenFileDialog instance in a using statement,
+    // Wrap the creation of the OpenFileDialog instance in a using statement,
     // rather than manually calling the Dispose method to ensure proper disposal
     using (OpenFileDialog dlg = new OpenFileDialog())
     {

@@ -30,6 +30,10 @@ namespace Test2
         Graphics Pic1G;
         Stream myStream;
 
+        // UV points
+        // This is the creation of temporary floats for the storage of UV calculations.
+        float startPointUVX, startPointUVY, endPointUVX, endPointUVY;
+
         private void LoadNewPict()
         {
             // Wrap the creation of the OpenFileDialog instance in a using statement,
@@ -101,26 +105,33 @@ namespace Test2
                     //}
                     string[] file = File.ReadAllLines(dlg.FileName);
                     int[] positions = new int[file.Length];
-                    float[] uvs = new float[file.Length];
+                    double[] uvs = new double[file.Length];
                     int counter = 0;
 
                     foreach (var item in file)
                     {
                         string[] values = item.Split(',');
-                        if (counter <= 1)
+                        if (counter < 4)
                         {
                             positions[counter] = Convert.ToInt32(values[0]);
-                            positions[counter + 1] = Convert.ToInt32(values[1]);
+                            counter++;
+                            positions[counter] = Convert.ToInt32(values[1]);
                             counter++;
                         }
                         else
                         {
-                            uvs[counter] = Convert.ToSingle(values[2]);
-                            counter++;
-                            if (counter == 3)
+                            if (counter > 0)
                             {
                                 counter = 0;
                             }
+                            while (counter < 4)
+                            {
+                                uvs[counter] = Convert.ToDouble(values[0]);
+                                counter++;
+                                uvs[counter] = Convert.ToDouble(values[1]);
+                                counter++;
+                            }
+                           
                         }
                     }
 
@@ -272,7 +283,7 @@ namespace Test2
 
         private void buttonExport_Click(object sender, EventArgs e)
         {
-            Stream myStream;
+            
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             
             saveFileDialog1.Filter = "txt files (*.txt)|*.txt";
@@ -281,15 +292,47 @@ namespace Test2
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                
-                if ((myStream = saveFileDialog1.OpenFile()) != null)
-                {
+                //if ((saveFileDialog1.OpenFile()) != null)
+                //{
+                    StreamWriter myStream = new StreamWriter(saveFileDialog1.FileName);
+                    //byte[] bytes = Encoding.ASCII.GetBytes(textOutput.Text);
+                    //byte[] bytes = Encoding.ASCII.GetBytes(pic1.X.ToString() + " ");
+                    
+                    //bytes = Encoding.ASCII.GetBytes(pic1.Y.ToString() +  " ");
+                    //myStream.Write(bytes, 0, bytes.Length);
+                    //bytes = Encoding.ASCII.GetBytes(pic2.X.ToString() + " ");
+                    //myStream.Write(bytes, 0, bytes.Length);
+                    //bytes = Encoding.ASCII.GetBytes(pic1.Y.ToString() + " ");
+                    //myStream.Write(bytes, 0, bytes.Length);
+                    //bytes = Encoding.ASCII.GetBytes(startPointUVX.ToString("n2") + " ");
+                    //myStream.Write(bytes, 0, bytes.Length);
+                    //bytes = Encoding.ASCII.GetBytes(startPointUVY.ToString("n2") + " ");
+                    //myStream.Write(bytes, 0, bytes.Length);
+                    //bytes = Encoding.ASCII.GetBytes(endPointUVX.ToString("n2") + " ");
+                    //myStream.Write(bytes, 0, bytes.Length);
+                    //bytes = Encoding.ASCII.GetBytes(endPointUVY.ToString("n2") + " ");
+                    //myStream.WriteLine(bytes, 0, bytes.Length);
+                    myStream.Write(pic1.X.ToString() + " ");
+                    myStream.Write(pic1.Y.ToString() + " ");
+                    myStream.Write(pic2.X.ToString() + " ");
+                    myStream.Write(pic2.Y.ToString() + " ");
+                    myStream.Write(startPointUVX.ToString("n2") + " ");
+                    myStream.Write(startPointUVY.ToString("n2") + " ");
+                    myStream.Write(endPointUVX.ToString("n2") + " ");
+                    myStream.Write(endPointUVY.ToString("n2") + " ");
+                    myStream.Write("\r\n");
+                    myStream.Write(pic1.X.ToString() + " ");
+                    myStream.Write(pic1.Y.ToString() + " ");
+                    myStream.Write(pic2.X.ToString() + " ");
+                    myStream.Write(pic2.Y.ToString() + " ");
+                    myStream.Write(startPointUVX.ToString("n2") + " ");
+                    myStream.Write(startPointUVY.ToString("n2") + " ");
+                    myStream.Write(endPointUVX.ToString("n2") + " ");
+                    myStream.Write(endPointUVY.ToString("n2") + " ");
 
-                    byte[] bytes = Encoding.ASCII.GetBytes(textOutput.Text);
-
-                    myStream.Write(bytes, 0, bytes.Length);
-                    // Code to write the stream goes here. 
-                    myStream.Close();
-                }
+                // Code to write the stream goes here. 
+                myStream.Close();
+                
             }
         }
 
@@ -350,8 +393,7 @@ namespace Test2
             if (e.Button == MouseButtons.Left)
             {
 
-                // This is the creation of temporary floats for the storage of UV calculations.
-                float startPointUVX, startPointUVY, endPointUVX, endPointUVY;
+               
                 
                 // this will do the calculations of the UV for us dynamically.
                 startPointUVX = ((float)pic1.X / (float)pictureBox1.Width);
