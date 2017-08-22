@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Test2
+{
+   public class PointD
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+
+        public PointD(double xval, double yval)
+        {
+            x = xval;
+            y = yval;
+        }
+
+    }
+
+
+    
+}

@@ -30,6 +30,18 @@ namespace Test2
         Graphics Pic1G;
         Stream myStream;
 
+
+        private List<Point> startPoints = new List<Point>();
+        private List<Point> endPoints = new List<Point>();
+
+        private List<PointD> startUVpoints = new List<PointD>();
+        private List<PointD> endUVpoints = new List<PointD>();
+
+        List<Rectangle> rectangles = new List<Rectangle>();
+
+        private int counter = 0;
+
+
         // UV points
         // This is the creation of temporary floats for the storage of UV calculations.
         float startPointUVX, startPointUVY, endPointUVX, endPointUVY;
@@ -68,71 +80,40 @@ namespace Test2
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    //var data = File
-                    //.ReadAllLines(dlg.FileName)
-                    //.Select(x => x.Split('='))
-                    //.Where(x => x.Length > 1)
-                    //.ToDictionary(x => x[0].Trim(), x => x[1]);
-
-                    ////textOutput.Text += ("startpos: {0}" + data["startpos"]);
-                    ////textOutput.Text += ("endpos: {0}" +  data["endpos"]);
-                    ////textOutput.Text += ("startUV: {0}" + data["startUV"]);
-                    //pic1 = data["startpos"];
-                    //using (TextReader reader = File.OpenText(dlg.FileName))
-                    //{
-
-                    //    int x = int.Parse(reader.ReadLine());
-                    //    double y = double.Parse(reader.ReadLine());
-                    //    string z = reader.ReadLine();
-                    //}
-
-                    //var positions = File.ReadLines(dlg.FileName).Select(int.Parse);
-                    //var uvs = File.ReadLines(dlg.FileName).Select(float.Parse);
-                    //int index = 0;
-
-                    //foreach (var number in positions)
-                    //{
-                    //    numbers[index++] = number;
-                    //}
-                    //if ((myStream = dlg.OpenFile()) != null)
-                    //{
-                    //    using (var reader = new StreamReader(myStream))
-                    //    {
-
-
-                    //    }
-
-                    //}
+                    
                     string[] file = File.ReadAllLines(dlg.FileName);
-                    int[] positions = new int[file.Length];
-                    double[] uvs = new double[file.Length];
-                    int counter = 0;
+                    //int[] positions = new int[file.Length];
+                    //double[] uvs = new double[file.Length];
+                    
+                    
 
                     foreach (var item in file)
                     {
-                        string[] values = item.Split(',');
-                        if (counter < 4)
-                        {
-                            positions[counter] = Convert.ToInt32(values[0]);
-                            counter++;
-                            positions[counter] = Convert.ToInt32(values[1]);
-                            counter++;
-                        }
-                        else
-                        {
-                            if (counter > 0)
-                            {
-                                counter = 0;
-                            }
-                            while (counter < 4)
-                            {
-                                uvs[counter] = Convert.ToDouble(values[0]);
-                                counter++;
-                                uvs[counter] = Convert.ToDouble(values[1]);
-                                counter++;
-                            }
-                           
-                        }
+
+                        // This splits the values up
+                        string[] values = item.Split( );
+                        // This adds each point to their respective lists.
+                        startPoints.Add(new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
+                        endPoints.Add(new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
+                        startUVpoints.Add(new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
+                        endUVpoints.Add(new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
+                        // increments the counter when everything is added.
+                        
+
+                        counter++;
+
+                        
+                    }
+                   
+                    for (int i = 0; i < counter; i++)
+                    {
+                        textOutput.Clear();
+                        textOutput.Text += startPoints.ElementAt(i).ToString() + Environment.NewLine;
+                        textOutput.Text += endPoints.ElementAt(i).ToString() + Environment.NewLine;
+                        textOutput.Text += startUVpoints.ElementAt(i).x.ToString() + " " + startUVpoints.ElementAt(i).y.ToString() + Environment.NewLine;
+                        textOutput.Text += endUVpoints.ElementAt(i).x.ToString() + " " + endUVpoints.ElementAt(i).y.ToString() + Environment.NewLine;
+                        rectangles.Add(new Rectangle(startPoints.ElementAt(i).X, startPoints.ElementAt(i).Y, endPoints.ElementAt(i).X - startPoints.ElementAt(i).X, endPoints.ElementAt(i).Y - startPoints.ElementAt(i).Y));
+                        
                     }
 
                 }
@@ -224,53 +205,53 @@ namespace Test2
         //}
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
-            {
-                p1 = e.Location;
-                r1 = p1;
-            }
+            //if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            //{
+            //    p1 = e.Location;
+            //    r1 = p1;
+            //}
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
-            {
-                p2 = e.Location;
+            //if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            //{
+            //    p2 = e.Location;
 
-                r2 = p2;
+            //    r2 = p2;
 
 
-                if (p2.X < p1.X)
-                {
-                    r2.X = p1.X;
-                    r1.X = p2.X;
+            //    if (p2.X < p1.X)
+            //    {
+            //        r2.X = p1.X;
+            //        r1.X = p2.X;
                
-            }
-            if (p2.Y < p1.Y)
-                {
-                    r2.Y = p1.Y;
-                    r1.Y = p2.Y;
+            //}
+            //if (p2.Y < p1.Y)
+            //    {
+            //        r2.Y = p1.Y;
+            //        r1.Y = p2.Y;
 
-                }
-                this.Invalidate();
-            }
+            //    }
+            //    this.Invalidate();
+            //}
             
         }
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
-            {
-               // p2 = e.Location;
-                this.Invalidate();
-                textOutput.Text = r1.ToString() + r2.ToString();
-            }
+            //if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            //{
+            //   // p2 = e.Location;
+            //    this.Invalidate();
+            //    textOutput.Text = r1.ToString() + r2.ToString();
+            //}
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            if (p1.X > 0 && p1.Y > 0 && p2.X > 0 && p2.Y > 0)
-                e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(r1.X, r1.Y, r2.X - r1.X, r2.Y - r1.Y));
+            //if (p1.X > 0 && p1.Y > 0 && p2.X > 0 && p2.Y > 0)
+            //    e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(r1.X, r1.Y, r2.X - r1.X, r2.Y - r1.Y));
         }
 
 
@@ -289,38 +270,37 @@ namespace Test2
             saveFileDialog1.Filter = "txt files (*.txt)|*.txt";
             saveFileDialog1.FilterIndex = 2;
             saveFileDialog1.RestoreDirectory = true;
+            bool startOfFile = true;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                
                 //if ((saveFileDialog1.OpenFile()) != null)
                 //{
                     StreamWriter myStream = new StreamWriter(saveFileDialog1.FileName);
-                    //byte[] bytes = Encoding.ASCII.GetBytes(textOutput.Text);
-                    //byte[] bytes = Encoding.ASCII.GetBytes(pic1.X.ToString() + " ");
-                    
-                    //bytes = Encoding.ASCII.GetBytes(pic1.Y.ToString() +  " ");
-                    //myStream.Write(bytes, 0, bytes.Length);
-                    //bytes = Encoding.ASCII.GetBytes(pic2.X.ToString() + " ");
-                    //myStream.Write(bytes, 0, bytes.Length);
-                    //bytes = Encoding.ASCII.GetBytes(pic1.Y.ToString() + " ");
-                    //myStream.Write(bytes, 0, bytes.Length);
-                    //bytes = Encoding.ASCII.GetBytes(startPointUVX.ToString("n2") + " ");
-                    //myStream.Write(bytes, 0, bytes.Length);
-                    //bytes = Encoding.ASCII.GetBytes(startPointUVY.ToString("n2") + " ");
-                    //myStream.Write(bytes, 0, bytes.Length);
-                    //bytes = Encoding.ASCII.GetBytes(endPointUVX.ToString("n2") + " ");
-                    //myStream.Write(bytes, 0, bytes.Length);
-                    //bytes = Encoding.ASCII.GetBytes(endPointUVY.ToString("n2") + " ");
-                    //myStream.WriteLine(bytes, 0, bytes.Length);
-                    myStream.Write(pic1.X.ToString() + " ");
-                    myStream.Write(pic1.Y.ToString() + " ");
-                    myStream.Write(pic2.X.ToString() + " ");
-                    myStream.Write(pic2.Y.ToString() + " ");
-                    myStream.Write(startPointUVX.ToString("n2") + " ");
-                    myStream.Write(startPointUVY.ToString("n2") + " ");
-                    myStream.Write(endPointUVX.ToString("n2") + " ");
-                    myStream.Write(endPointUVY.ToString("n2") + " ");
+                //byte[] bytes = Encoding.ASCII.GetBytes(textOutput.Text);
+                //byte[] bytes = Encoding.ASCII.GetBytes(pic1.X.ToString() + " ");
+
+                //bytes = Encoding.ASCII.GetBytes(pic1.Y.ToString() +  " ");
+                //myStream.Write(bytes, 0, bytes.Length);
+                //bytes = Encoding.ASCII.GetBytes(pic2.X.ToString() + " ");
+                //myStream.Write(bytes, 0, bytes.Length);
+                //bytes = Encoding.ASCII.GetBytes(pic1.Y.ToString() + " ");
+                //myStream.Write(bytes, 0, bytes.Length);
+                //bytes = Encoding.ASCII.GetBytes(startPointUVX.ToString("n2") + " ");
+                //myStream.Write(bytes, 0, bytes.Length);
+                //bytes = Encoding.ASCII.GetBytes(startPointUVY.ToString("n2") + " ");
+                //myStream.Write(bytes, 0, bytes.Length);
+                //bytes = Encoding.ASCII.GetBytes(endPointUVX.ToString("n2") + " ");
+                //myStream.Write(bytes, 0, bytes.Length);
+                //bytes = Encoding.ASCII.GetBytes(endPointUVY.ToString("n2") + " ");
+                //myStream.WriteLine(bytes, 0, bytes.Length);
+
+                if (startOfFile == false)
+                {
+                    //this writes the new line for the file.
                     myStream.Write("\r\n");
+                }
+
                     myStream.Write(pic1.X.ToString() + " ");
                     myStream.Write(pic1.Y.ToString() + " ");
                     myStream.Write(pic2.X.ToString() + " ");
@@ -329,6 +309,8 @@ namespace Test2
                     myStream.Write(startPointUVY.ToString("n2") + " ");
                     myStream.Write(endPointUVX.ToString("n2") + " ");
                     myStream.Write(endPointUVY.ToString("n2") + " ");
+                    startOfFile = false;
+                 
 
                 // Code to write the stream goes here. 
                 myStream.Close();
@@ -429,6 +411,10 @@ namespace Test2
             if (pic1.X > 0 && pic1.Y > 0 && pic2.X > 0 && pic2.Y > 0)
             {
                e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - rPic1.Y));                
+            }
+            for (int i = 0; i < counter; i++)
+            {
+                e.Graphics.DrawRectangle(Pens.Red, rectangles.ElementAt(i));
             }
         }
 

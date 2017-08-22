@@ -161,6 +161,7 @@
             this.btnUVLoad.Size = new System.Drawing.Size(55, 22);
             this.btnUVLoad.Text = "&Load UV";
             this.btnUVLoad.Click += new System.EventHandler(this.btnUVLoad_Click);
+            this.btnUVLoad.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // Form1
             // 
