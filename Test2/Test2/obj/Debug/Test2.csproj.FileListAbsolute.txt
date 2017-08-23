@@ -16,3 +16,4 @@ C:\Users\s171842\Documents\C# Projects\C-Projects\Test2\Test2\obj\Debug\Test2.cs
 C:\Users\s171842\Documents\C# Projects\C-Projects\Test2\Test2\obj\Debug\Test2.Form1.resources
 C:\Users\s171842\Documents\C# Projects\C-Projects\Test2\Test2\obj\Debug\Test2.Properties.Resources.resources
 C:\Users\s171842\Documents\C# Projects\C-Projects\Test2\Test2\obj\Debug\Test2.csproj.GenerateResource.Cache
+C:\Users\s171842\Documents\C# Projects\C-Projects\Test2\Test2\obj\Debug\Test2.Form2.resources

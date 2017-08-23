@@ -29,9 +29,11 @@ namespace Test2
         Graphics Pic1G;
         Stream myStream;
 
+        public string tempName = " ";
 
-        Item tempItem = new Item();
-        List<Item> items = new List<Item>();
+
+        public Item tempItem = new Item();
+        public List<Item> items = new List<Item>();
 
         //private List<Point> startPoints = new List<Point>();
         //private List<Point> endPoints = new List<Point>();
@@ -41,7 +43,7 @@ namespace Test2
 
         //List<Rectangle> rectangles = new List<Rectangle>();
 
-        private int counter = 0;
+        public int counter = 0;
 
 
         // UV points
@@ -74,59 +76,68 @@ namespace Test2
         }
         private void LoadUVCoords()
         {
+            bool loadComplete = false;
+            
 
-            using (OpenFileDialog dlg = new OpenFileDialog())
-            {
-                dlg.Title = "Open UV";
-                dlg.Filter = "Text files (.txt)| *.txt";
+
+            
+                using (OpenFileDialog dlg = new OpenFileDialog())
+                {
+                    dlg.Title = "Open UV";
+                    dlg.Filter = "Text files (.txt)| *.txt";
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    
+                    Form2 newMDIChild = new Form2();
+                    newMDIChild.Show();
+                    newMDIChild.theFileName = dlg.FileName;
+                    newMDIChild.parent = this;
+
+                    //Form2 newMDIChild = new Form2();
+                    //newMDIChild.Show();
+
+
+
+                    //newMDIChild.MdiParent = this;
+
+
+                    //while(!newMDIChild.Enabled)
+                    //{
+
+                    /*
+                    //tempItem.name = newMDIChild.name;
                     string[] file = File.ReadAllLines(dlg.FileName);
-                    //int[] positions = new int[file.Length];
-                    //double[] uvs = new double[file.Length];
+                        //int[] positions = new int[file.Length];
+                        //double[] uvs = new double[file.Length];
 
-                    for (int i = 0; i <= file.Length; i++)
-                    {
-                        
-                    }
+                        for (int i = 0; i <= file.Length; i++)
+                        {
 
-                    foreach (var item in file)
-                    {
+                            foreach (var item in file)
+                            {
 
-                        // This splits the values up
-                        string[] values = item.Split( );
-                        
-                        
-                        // This adds each point to their respective lists.
-                        //startPoints.Add(new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
-                        //endPoints.Add(new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
-                        //startUVpoints.Add(new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
-                        //endUVpoints.Add(new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
-                        // increments the counter when everything is added.
-                        
+                                // This splits the values up
+                                string[] values = item.Split();
 
-                        counter++;
 
-                        
-                    }
-                   
-                    for (int i = 0; i < counter; i++)
-                    {
-                        //textOutput.Clear();
-                        //textOutput.Text += startPoints.ElementAt(i).ToString() + Environment.NewLine;
-                        //textOutput.Text += endPoints.ElementAt(i).ToString() + Environment.NewLine;
-                        //textOutput.Text += startUVpoints.ElementAt(i).x.ToString() + " " + startUVpoints.ElementAt(i).y.ToString() + Environment.NewLine;
-                        //textOutput.Text += endUVpoints.ElementAt(i).x.ToString() + " " + endUVpoints.ElementAt(i).y.ToString() + Environment.NewLine;
-                        //rectangles.Add(new Rectangle(startPoints.ElementAt(i).X, startPoints.ElementAt(i).Y, endPoints.ElementAt(i).X - startPoints.ElementAt(i).X, endPoints.ElementAt(i).Y - startPoints.ElementAt(i).Y));
-                        
-                    }
+                                // This adds each point to their respective lists.
+                                //startPoints.Add(new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
+                                //endPoints.Add(new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
+                                //startUVpoints.Add(new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
+                                //endUVpoints.Add(new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
+                                // increments the counter when everything is added.
+
+                                counter++;
+
+                            }
+
+
+
+                        }*/
+                    //}
 
                 }
-
             }
-
 
         }
 
@@ -139,112 +150,15 @@ namespace Test2
             //this.DoubleBuffered = true;
 
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(pictureBox1_Paint);
             pictureBox1.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
-            lstItems.SelectedValueChanged += new EventHandler(lstItems_SelectedValueChanged);
+           
         }
 
-        ////Initiate rectangle with mouse down event
-        //protected override void OnMouseDown(MouseEventArgs e)
-        //{
+  
+ 
 
-        //    startPoint.x = e.X;
-        //    startPoint.y = e.Y;
-        //    mRect = new Rectangle(startPoint.x, startPoint.y, 0, 0);
-
-        //    this.Invalidate();
-        //}
-
-        ////check if mouse is down and being draged, then draw rectangle
-        //protected override void OnMouseMove(MouseEventArgs e)
-        //{
-        //    if (e.Button == MouseButtons.Left)
-        //    {
-
-
-
-
-        //        Vector2 tempVec;
-
-        //        if (mRect.Left < startPoint.x)
-        //        {
-        //            tempVec.x = mRect.Left;
-        //            endPoint.x = startPoint.x;
-        //            startPoint.x = tempVec.x;
-        //        }
-        //        if (endPoint.y < startPoint.y)
-        //        {
-        //            tempVec.y = endPoint.y;
-        //            endPoint.y = startPoint.y;
-        //            startPoint.y = tempVec.y;
-        //        }
-
-        //        mRect = new Rectangle(mRect.Left, mRect.Top, e.X - mRect.Left, e.Y - mRect.Top);
-
-
-
-        //        textOutput.Text = mRect.ToString();
-        //        this.Invalidate();
-        //    }
-        //}
-        //protected override void OnMouseUp(MouseEventArgs e)
-        //{
-
-
-        //    //mRect = new Rectangle(e.X, e.Y, 0, 0);
-
-        //    //this.Invalidate();
-
-
-        //}
-
-        ////draw the rectangle on paint event
-        //protected override void OnPaint(PaintEventArgs e)
-        //{
-        //    //Draw a rectangle with 2pixel wide line
-        //    using (Pen pen = new Pen(Color.Red, 2))
-        //    {
-        //        e.Graphics.DrawRectangle(pen, mRect);
-        //    }
-
-        //}
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
-        {
-            //if (e.Button == System.Windows.Forms.MouseButtons.Left)
-            //{
-            //    p1 = e.Location;
-            //    r1 = p1;
-            //}
-        }
-
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
-        {
-            //if (e.Button == System.Windows.Forms.MouseButtons.Left)
-            //{
-            //    p2 = e.Location;
-
-            //    r2 = p2;
-
-
-            //    if (p2.X < p1.X)
-            //    {
-            //        r2.X = p1.X;
-            //        r1.X = p2.X;
-               
-            //}
-            //if (p2.Y < p1.Y)
-            //    {
-            //        r2.Y = p1.Y;
-            //        r1.Y = p2.Y;
-
-            //    }
-            //    this.Invalidate();
-            //}
-            
-        }
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -281,27 +195,9 @@ namespace Test2
             bool startOfFile = true;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-               
-                //if ((saveFileDialog1.OpenFile()) != null)
-                //{
+     
                     StreamWriter myStream = new StreamWriter(saveFileDialog1.FileName);
-                //byte[] bytes = Encoding.ASCII.GetBytes(textOutput.Text);
-                //byte[] bytes = Encoding.ASCII.GetBytes(pic1.X.ToString() + " ");
 
-                //bytes = Encoding.ASCII.GetBytes(pic1.Y.ToString() +  " ");
-                //myStream.Write(bytes, 0, bytes.Length);
-                //bytes = Encoding.ASCII.GetBytes(pic2.X.ToString() + " ");
-                //myStream.Write(bytes, 0, bytes.Length);
-                //bytes = Encoding.ASCII.GetBytes(pic1.Y.ToString() + " ");
-                //myStream.Write(bytes, 0, bytes.Length);
-                //bytes = Encoding.ASCII.GetBytes(startPointUVX.ToString("n2") + " ");
-                //myStream.Write(bytes, 0, bytes.Length);
-                //bytes = Encoding.ASCII.GetBytes(startPointUVY.ToString("n2") + " ");
-                //myStream.Write(bytes, 0, bytes.Length);
-                //bytes = Encoding.ASCII.GetBytes(endPointUVX.ToString("n2") + " ");
-                //myStream.Write(bytes, 0, bytes.Length);
-                //bytes = Encoding.ASCII.GetBytes(endPointUVY.ToString("n2") + " ");
-                //myStream.WriteLine(bytes, 0, bytes.Length);
 
                 if (startOfFile == false)
                 {
@@ -309,16 +205,22 @@ namespace Test2
                     myStream.Write("\r\n");
                 }
 
-                    myStream.Write(pic1.X.ToString() + " ");
-                    myStream.Write(pic1.Y.ToString() + " ");
-                    myStream.Write(pic2.X.ToString() + " ");
-                    myStream.Write(pic2.Y.ToString() + " ");
-                    myStream.Write(startPointUVX.ToString("n2") + " ");
-                    myStream.Write(startPointUVY.ToString("n2") + " ");
-                    myStream.Write(endPointUVX.ToString("n2") + " ");
-                    myStream.Write(endPointUVY.ToString("n2") + " ");
-                    startOfFile = false;
-                 
+                myStream.Write(pic1.X.ToString() + " ");
+                myStream.Write(pic1.Y.ToString() + " ");
+                myStream.Write(pic2.X.ToString() + " ");
+                myStream.Write(pic2.Y.ToString() + " ");
+                myStream.Write(startPointUVX.ToString("n2") + " ");
+                myStream.Write(startPointUVY.ToString("n2") + " ");
+                myStream.Write(endPointUVX.ToString("n2") + " ");
+                myStream.Write(endPointUVY.ToString("n2") + " ");
+                startOfFile = false;
+
+                // incorporate in a for loop for outputing to a file.
+                //for (int i = 0; i <= items.Count; i++)
+                //{
+
+                //}
+
 
                 // Code to write the stream goes here. 
                 myStream.Close();
@@ -453,40 +355,20 @@ namespace Test2
 
         private void lstItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //for(int i = 0; i < items.Count; i++)
-            //{
-            //    if(lstItems.SelectedIndex = items)
-            //}
-            //lblStartUVText.Text = " ";
-            //lblStartUVText.Text += items.ElementAt(lstItems.SelectedIndex).startUVpoint.x.ToString("n2") + " " + items.ElementAt(lstItems.SelectedIndex).startUVpoint.y.ToString("n2");
+            if (lstItems.SelectedIndex == -1)
+            {
+                textOutput.Text = "";
+            }
+           
 
-            //textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString();
             textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
             textOutput.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
             
 
         }
 
-        private void lstItems_SelectedValueChanged(object sender, EventArgs e)
-        {
-            //textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString();
-        }
 
-        private void lstItems_KeyDown(object sender, KeyEventArgs e)
-        {
-            
-       }
 
-        private void lstItems_MouseDown(object sender, MouseEventArgs e)
-        {
-            //for (int i = 0; i < items.Count(); i++)
-            //{
-            //    if (items.ElementAt(i).name == lstItems.SelectedItem.ToString())
-            //    {
-            //        textOutput.Text += items.ElementAt(i).startPoint.ToString();
-            //    }
-            //}
-        }
 
         private void lstItems_DoubleClick(object sender, EventArgs e)
         {
@@ -508,26 +390,23 @@ namespace Test2
 
         private void btnUVLoad_Click(object sender, EventArgs e)
         {
+
+           
+            //newMDIChild.parent = this;
+            
+            //if (newMDIChild)
+            //{
+
+            //}
+
             LoadUVCoords();
+           
+
+          
+            
+            
+            
         }
-        //private void PictureBox1_MouseDown(object sender, MouseEventArgs e)
-        //{
-        //    startPoint.x = e.X;
-        //    startPoint.y = e.Y;
 
-        //}
-
-        //private void PictureBox1_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (e.Button == MouseButtons.Left)
-
-        //    {
-        //        endPoint.x = e.X;
-        //        endPoint.y = e.Y;
-
-        //        mRect = new Rectangle(startPoint.x, startPoint.y, endPoint.x - startPoint.x, endPoint.y - startPoint.y);
-        //        pictureBox1.Refresh();
-        //    }
-        //}
     }
 }

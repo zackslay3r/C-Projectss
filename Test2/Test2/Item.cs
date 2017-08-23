@@ -18,7 +18,7 @@ namespace Test2
 
         public Rectangle rectangle = new Rectangle();
 
-        public string name = " ";
+        public string name { get; set; }
 
         //public Point startPoint;
         //public Point endPoints;
