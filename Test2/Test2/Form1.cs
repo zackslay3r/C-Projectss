@@ -34,6 +34,8 @@ namespace Test2
 
         public Item tempItem = new Item();
         public List<Item> items = new List<Item>();
+        public Form2 newMDIChild = new Form2();
+        public string[] file;
 
         //private List<Point> startPoints = new List<Point>();
         //private List<Point> endPoints = new List<Point>();
@@ -74,72 +76,102 @@ namespace Test2
                 }
             }
         }
-        private void LoadUVCoords()
+        public void LoadUVCoords()
         {
             bool loadComplete = false;
-            
 
 
-            
-                using (OpenFileDialog dlg = new OpenFileDialog())
+
+
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+                if (newMDIChild.counter == 0)
                 {
                     dlg.Title = "Open UV";
                     dlg.Filter = "Text files (.txt)| *.txt";
 
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    Form2 newMDIChild = new Form2();
-                    newMDIChild.Show();
-                    newMDIChild.theFileName = dlg.FileName;
-                    newMDIChild.parent = this;
 
-                    //Form2 newMDIChild = new Form2();
-                    //newMDIChild.Show();
+                    if (dlg.ShowDialog() == DialogResult.OK)
+                    {
 
+                        newMDIChild.Show();
+                        newMDIChild.theFileName = dlg.FileName;
+                        newMDIChild.parent = this;
 
+                        newMDIChild.file = File.ReadAllLines(dlg.FileName);
 
-                    //newMDIChild.MdiParent = this;
-
-
-                    //while(!newMDIChild.Enabled)
-                    //{
-
-                    /*
-                    //tempItem.name = newMDIChild.name;
-                    string[] file = File.ReadAllLines(dlg.FileName);
-                        //int[] positions = new int[file.Length];
-                        //double[] uvs = new double[file.Length];
-
-                        for (int i = 0; i <= file.Length; i++)
-                        {
-
-                            foreach (var item in file)
-                            {
-
-                                // This splits the values up
-                                string[] values = item.Split();
-
-
-                                // This adds each point to their respective lists.
-                                //startPoints.Add(new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
-                                //endPoints.Add(new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
-                                //startUVpoints.Add(new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
-                                //endUVpoints.Add(new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
-                                // increments the counter when everything is added.
-
-                                counter++;
-
-                            }
-
-
-
-                        }*/
-                    //}
-
+                    }
                 }
-            }
+
+                foreach (var item in newMDIChild.file)
+                {
+
+                    // This splits the values up and stores them in the temporary item.
+                    string[] values = item.Split();
+                    tempItem.startPoint = (new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
+                    tempItem.endPoints = (new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
+                    tempItem.startUVpoint = (new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
+                    tempItem.endUVpoint = (new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
+
+                    newMDIChild.ofItemsToChange.Add(tempItem);
+                    tempItem = new Item();
+                }
+            }                        //Form2 newMDIChild = new Form2();
+                                     //newMDIChild.Show();
+
+
+
+            //newMDIChild.MdiParent = this;
+
+
+            //while(!newMDIChild.Enabled)
+            //{
+
+            /*
+            //tempItem.name = newMDIChild.name;
+            string[] file = File.ReadAllLines(dlg.FileName);
+                //int[] positions = new int[file.Length];
+                //double[] uvs = new double[file.Length];
+
+                for (int i = 0; i <= file.Length; i++)
+                {
+
+                    foreach (var item in file)
+                    {
+
+                        // This splits the values up
+                        string[] values = item.Split();
+
+
+                        // This adds each point to their respective lists.
+                        //startPoints.Add(new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
+                        //endPoints.Add(new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
+                        //startUVpoints.Add(new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
+                        //endUVpoints.Add(new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
+                        // increments the counter when everything is added.
+
+                        counter++;
+
+                    }
+
+
+
+                }*/
+            //        //}
+            //    }
+
+            //    }
+            //    else
+            //    {
+            //        newMDIChild.Show();
+            //        newMDIChild.theFileName = dlg.FileName;
+            //        newMDIChild.parent = this;
+            //    }
+            //} 
 
         }
+          
+        
 
 
 
@@ -199,27 +231,37 @@ namespace Test2
                     StreamWriter myStream = new StreamWriter(saveFileDialog1.FileName);
 
 
-                if (startOfFile == false)
-                {
-                    //this writes the new line for the file.
-                    myStream.Write("\r\n");
-                }
+                
 
-                myStream.Write(pic1.X.ToString() + " ");
-                myStream.Write(pic1.Y.ToString() + " ");
-                myStream.Write(pic2.X.ToString() + " ");
-                myStream.Write(pic2.Y.ToString() + " ");
-                myStream.Write(startPointUVX.ToString("n2") + " ");
-                myStream.Write(startPointUVY.ToString("n2") + " ");
-                myStream.Write(endPointUVX.ToString("n2") + " ");
-                myStream.Write(endPointUVY.ToString("n2") + " ");
-                startOfFile = false;
+                //myStream.Write(pic1.X.ToString() + " ");
+                //myStream.Write(pic1.Y.ToString() + " ");
+                //myStream.Write(pic2.X.ToString() + " ");
+                //myStream.Write(pic2.Y.ToString() + " ");
+                //myStream.Write(startPointUVX.ToString("n2") + " ");
+                //myStream.Write(startPointUVY.ToString("n2") + " ");
+                //myStream.Write(endPointUVX.ToString("n2") + " ");
+                //myStream.Write(endPointUVY.ToString("n2") + " ");
+                //startOfFile = false;
 
                 // incorporate in a for loop for outputing to a file.
-                //for (int i = 0; i <= items.Count; i++)
-                //{
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if (startOfFile == false)
+                    {
+                        //this writes the new line for the file.
+                        myStream.Write("\r\n");
+                    }
 
-                //}
+                    myStream.Write(items.ElementAt(i).startPoint.X.ToString() + " ");
+                    myStream.Write(items.ElementAt(i).startPoint.Y.ToString() + " ");
+                    myStream.Write(items.ElementAt(i).endPoints.X.ToString() + " ");
+                    myStream.Write(items.ElementAt(i).endPoints.Y.ToString() + " ");
+                    myStream.Write(items.ElementAt(i).startUVpoint.x.ToString("n2") + " ");
+                    myStream.Write(items.ElementAt(i).startUVpoint.y.ToString("n2") + " ");
+                    myStream.Write(items.ElementAt(i).endUVpoint.x.ToString("n2") + " ");
+                    myStream.Write(items.ElementAt(i).endUVpoint.y.ToString("n2") + " ");
+                    startOfFile = false;
+                }
 
 
                 // Code to write the stream goes here. 
@@ -392,13 +434,6 @@ namespace Test2
         {
 
            
-            //newMDIChild.parent = this;
-            
-            //if (newMDIChild)
-            //{
-
-            //}
-
             LoadUVCoords();
            
 
