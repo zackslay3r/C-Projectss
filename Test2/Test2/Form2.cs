@@ -41,13 +41,13 @@ namespace Test2
                         foreach (var item in file)
                         {
 
-                            // This splits the values up
+                            // This splits the values up and stores them in the temporary item.
                             string[] values = item.Split();
-                    tempItem.startPoint = (new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
-                    tempItem.endPoints = (new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
-                    tempItem.startUVpoint = (new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
-                    tempItem.endUVpoint = (new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
-                    parent.counter++;
+                        tempItem.startPoint = (new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
+                        tempItem.endPoints = (new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
+                        tempItem.startUVpoint = (new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
+                        tempItem.endUVpoint = (new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
+                        parent.counter++;
 
                         }
 
@@ -59,6 +59,7 @@ namespace Test2
                 //}
                 }
 
+            // Adds the item to the list.
             tempItem.name = txtName.Text;
             parent.items.Add(tempItem);
             parent.lstItems.Items.Add(tempItem.name);
