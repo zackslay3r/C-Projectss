@@ -26,6 +26,10 @@ namespace Test2
 
         private Point rPic1 = new Point(-1, 1);
         private Point rPic2 = new Point(-1, 1);
+
+
+        int widith, height;
+
         Graphics Pic1G;
         Stream myStream;
 
@@ -47,7 +51,7 @@ namespace Test2
 
         public int counter = 0;
 
-
+        public int selectedIndex = 0;
         // UV points
         // This is the creation of temporary floats for the storage of UV calculations.
         double startPointUVX, startPointUVY, endPointUVX, endPointUVY;
@@ -75,6 +79,9 @@ namespace Test2
 
                 }
             }
+            
+            widith = pictureBox1.Width;
+            height = pictureBox1.Height;
         }
         public void LoadUVCoords()
         {
@@ -121,53 +128,6 @@ namespace Test2
 
 
 
-            //newMDIChild.MdiParent = this;
-
-
-            //while(!newMDIChild.Enabled)
-            //{
-
-            /*
-            //tempItem.name = newMDIChild.name;
-            string[] file = File.ReadAllLines(dlg.FileName);
-                //int[] positions = new int[file.Length];
-                //double[] uvs = new double[file.Length];
-
-                for (int i = 0; i <= file.Length; i++)
-                {
-
-                    foreach (var item in file)
-                    {
-
-                        // This splits the values up
-                        string[] values = item.Split();
-
-
-                        // This adds each point to their respective lists.
-                        //startPoints.Add(new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
-                        //endPoints.Add(new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
-                        //startUVpoints.Add(new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
-                        //endUVpoints.Add(new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
-                        // increments the counter when everything is added.
-
-                        counter++;
-
-                    }
-
-
-
-                }*/
-            //        //}
-            //    }
-
-            //    }
-            //    else
-            //    {
-            //        newMDIChild.Show();
-            //        newMDIChild.theFileName = dlg.FileName;
-            //        newMDIChild.parent = this;
-            //    }
-            //} 
 
         }
           
@@ -185,7 +145,9 @@ namespace Test2
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(pictureBox1_Paint);
             pictureBox1.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
-           
+            widith = pictureBox1.Width;
+            height = pictureBox1.Height;
+
         }
 
   
@@ -283,11 +245,31 @@ namespace Test2
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
+            
+
             if (e.Button == MouseButtons.Left)
             {
                 pic2 = e.Location;
                 rPic2 = pic2;
             }
+
+            if (pic2.X < 0)
+            {
+                pic2.X = 1;
+            }
+            if (pic2.Y < 0)
+            {
+                pic2.Y = 1;
+            }
+            if (pic2.X > widith)
+            {
+                pic2.X = widith - 1;
+            }
+            if (pic2.Y > height)
+            {
+                pic2.Y = height - 1;
+            }
+
             if (pic2.X < pic1.X)
             {
                 rPic2.X = pic1.X;
@@ -300,6 +282,9 @@ namespace Test2
                 rPic1.Y = pic2.Y;
 
             }
+          
+        
+
             this.Invalidate();
 
 
@@ -375,14 +360,32 @@ namespace Test2
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            //if (pic2.X < 0)
+            //{
+            //    //pic2.X = 0;
+            //    e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, 0 - rPic1.X, rPic2.Y - rPic1.Y));
+            //}
+            //if (pic2.Y < 0)
+            //{
+            //    // pic2.Y = 0;
+            //    e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, 0 - rPic1.Y));
+            //}
+            //if (pic2.X > pictureBox1.Width)
+            //{
+            //    // pic2.X = pictureBox1.Width;
+            //    e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, pictureBox1.Width - rPic1.X, rPic2.Y - rPic1.Y));
+            //}
+            //if (pic2.Y > pictureBox1.Height)
+            //{
+            //    //  pic2.Y = pictureBox1.Height;
+            //    e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - pictureBox1.Height));
+            //}
+
             if (pic1.X > 0 && pic1.Y > 0 && pic2.X > 0 && pic2.Y > 0)
             {
                e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - rPic1.Y));                
             }
-            for (int i = 0; i < counter; i++)
-            {
-                //e.Graphics.DrawRectangle(Pens.Red, rectangles.ElementAt(i));
-            }
+           
         }
 
         private void btnSaveRec_Click(object sender, EventArgs e)
@@ -397,6 +400,8 @@ namespace Test2
 
         private void lstItems_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
+
             if (lstItems.SelectedIndex == -1)
             {
                 textOutput.Text = "";
@@ -405,12 +410,20 @@ namespace Test2
 
             textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
             textOutput.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
-            
 
+            selectedIndex = lstItems.SelectedIndex;
+            this.Invalidate();
+          
         }
 
-
-
+        private void lstItems_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.Graphics.DrawRectangle(Pens.Red, new Rectangle(items.ElementAt(lstItems.SelectedIndex).startPoint.X, 
+                                    items.ElementAt(lstItems.SelectedIndex).startPoint.Y, 
+                                    items.ElementAt(lstItems.SelectedIndex).endPoints.X - items.ElementAt(lstItems.SelectedIndex).startPoint.X,
+                                    items.ElementAt(lstItems.SelectedIndex).endPoints.Y - items.ElementAt(lstItems.SelectedIndex).startPoint.Y
+                                    ));
+        }
 
         private void lstItems_DoubleClick(object sender, EventArgs e)
         {

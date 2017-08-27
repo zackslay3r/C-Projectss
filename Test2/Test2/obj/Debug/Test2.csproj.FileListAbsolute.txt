@@ -27,3 +27,13 @@ C:\Users\s171842\Documents\GitHub\C-Projectss\Test2\Test2\obj\Debug\Test2.Form1.
 C:\Users\s171842\Documents\GitHub\C-Projectss\Test2\Test2\obj\Debug\Test2.Form2.resources
 C:\Users\s171842\Documents\GitHub\C-Projectss\Test2\Test2\obj\Debug\Test2.Properties.Resources.resources
 C:\Users\s171842\Documents\GitHub\C-Projectss\Test2\Test2\obj\Debug\Test2.csproj.GenerateResource.Cache
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\bin\Debug\Test2.exe.config
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\obj\Debug\Test2.exe
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\obj\Debug\Test2.pdb
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\bin\Debug\Test2.exe
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\bin\Debug\Test2.pdb
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\obj\Debug\Test2.csprojResolveAssemblyReference.cache
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\obj\Debug\Test2.Form1.resources
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\obj\Debug\Test2.Form2.resources
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\obj\Debug\Test2.Properties.Resources.resources
+C:\Users\user\Documents\C# Projects\C-Projectss\Test2\Test2\obj\Debug\Test2.csproj.GenerateResource.Cache

@@ -185,6 +185,7 @@
             this.lstItems.Name = "lstItems";
             this.lstItems.Size = new System.Drawing.Size(189, 251);
             this.lstItems.TabIndex = 0;
+            this.lstItems.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstItems_DrawItem);
             this.lstItems.SelectedIndexChanged += new System.EventHandler(this.lstItems_SelectedIndexChanged);
             this.lstItems.DoubleClick += new System.EventHandler(this.lstItems_DoubleClick);
             // 
