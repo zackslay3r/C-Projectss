@@ -13,7 +13,7 @@ namespace Test2
 {
     public partial class Form1 : Form
     {
-        Rectangle mRect;
+        Rectangle mRect = new Rectangle (0,0,0,0);
         // form points
         private Point p1 = new Point(-1, -1);
         private Point p2 = new Point(-1, -1);
@@ -59,6 +59,11 @@ namespace Test2
         // This is the creation of temporary floats for the storage of UV calculations.
         double startPointUVX, startPointUVY, endPointUVX, endPointUVY;
 
+        // temporary values for the rectangle movement.
+        int tempX, tempY;
+
+
+        private Point MouseDownLocation;
 
 
         public bool checkCollide(int x, int y, int oWidth, int oHeight, int xTwo, int yTwo, int oTwoWidth, int oTwoHeight)
@@ -305,55 +310,93 @@ namespace Test2
 
             if (e.Button == MouseButtons.Left)
             {
+                // old code, uncomment if required.
                 pic2 = e.Location;
                 rPic2 = pic2;
-            }
-            CheckBounds();
-            pictureBox1.Invalidate();
-
-
-        }
-
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            isRectDrawn = false;
-            if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.None) == Keys.None)
-            {
                 
-                lstItems.ClearSelected();
+                //pictureBox1.Invalidate();
 
-                tempItem.startPoint = new Point(-1, 1);
-                tempItem.endPoints = new Point(-1, 1);
-                tempItem.startUVpoint.x = 0.0;
-                tempItem.startUVpoint.y = 0.0;
-                tempItem.endUVpoint.x = 0.0;
-                tempItem.endUVpoint.y = 0.0;
-
-                
+                mRect.Width = e.X - mRect.X;
+                mRect.Height = e.Y - mRect.Y;
+                CheckBounds();
+                this.Invalidate();
             }
+            
 
-            if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.Shift) == Keys.Shift)
+            if (e.Button == MouseButtons.Right)
             {
                 if (mRect != null)
                 {
                     if (checkCollide(e.Location.X, e.Location.Y, 1, 1, mRect.X, mRect.Y, mRect.Width, mRect.Height))
                     {
-                        int tempX, tempY;
-                        tempX = mRect.X;
-                        tempY = mRect.Y;
+                         //MouseDownLocation = e.Location;
 
 
-                        mRect.X += e.X - tempX;
-                        mRect.Y += e.Y - tempY;
+                       
+                        //mRect.X += (e.X - tempX);
+                        //mRect.Y += (e.Y - tempY);
 
+                        //rPic1.X += (e.X - tempX);
+                        //rPic1.Y += (e.Y - tempY);
+
+                        //rPic2.X += (e.X - tempX);
+                        //rPic2.Y += (e.Y - tempY);
+
+
+                        if (e.Button == MouseButtons.Right)
+                        {
+                            mRect.Location = new Point((e.X - MouseDownLocation.X) + mRect.Left, (e.Y - MouseDownLocation.Y) + mRect.Top);
+                            MouseDownLocation = e.Location;
+                            //this.Invalidate();
+                        }
+
+                        pictureBox1.Invalidate();
                     }
                 }
             }
+        }
 
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            isRectDrawn = false;
+            if (e.Button == MouseButtons.Left )
+            {
+                //old code. uncomment.
+                //lstItems.ClearSelected();
+
+                //tempItem.startPoint = new Point(-1, 1);
+                //tempItem.endPoints = new Point(-1, 1);
+                //tempItem.startUVpoint.x = 0.0;
+                //tempItem.startUVpoint.y = 0.0;
+                //tempItem.endUVpoint.x = 0.0;
+                //tempItem.endUVpoint.y = 0.0;
+
+                
+
+               //pic1 = e.Location;
+                rPic1 = e.Location;
+
+
+                //TROUBLE LINE
+                // if this is active, rect's draw fine, but cannot be draggable.
+                // if not active, rect's can only be +, but are draggable.
+                pic1 = rPic1;
+
+
+
+                // new code.
+                mRect = new Rectangle(e.X, e.Y, 0, 0);
                 CheckBounds();
+                Invalidate();
 
-                pic1 = e.Location;
-                rPic1 = pic1;
+            }
+            if(e.Button == MouseButtons.Right)
+            {
+                MouseDownLocation = e.Location;
+            }
+            
+
+                
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -363,7 +406,7 @@ namespace Test2
             
 
 
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
             {
                 
                 if (pic2.X < pic1.X)
@@ -441,9 +484,11 @@ namespace Test2
                 tempItem.endUVpoint.y = endPointUVY;
                 isRectDrawn = true;
 
-                
+                    tempX = mRect.X;
+                    tempY = mRect.Y;
                
             }
+            
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -503,7 +548,10 @@ namespace Test2
                     
                     
                 }
+                // new code.
+                e.Graphics.DrawRectangle(Pens.Blue, mRect);
             }
+
         }
 
         private void btnSaveRec_Click(object sender, EventArgs e)
@@ -616,7 +664,9 @@ namespace Test2
         private void picBoxPreview_Paint(object sender, PaintEventArgs e)
         {
             //e.Graphics.DrawImage(pictureBox1.Image, picBoxPreview.Location.X, picBoxPreview.Location.Y, picBoxPreview.Width, picBoxPreview.Height);
-            if (isRectDrawn == true)
+            //if (isRectDrawn == true)
+
+            if(pictureBox1.Image != null)
             {
                 //e.Graphics.DrawImage(pictureBox1.Image, rPic1.X, rPic1.Y, picBoxPreview.Width, picBoxPreview.Height);
                 //e.Graphics.DrawImage(pictureBox1.Image, picBoxPreview.Location.X, picBoxPreview.Location.Y, picBoxPreview.Width, picBoxPreview.Height);
