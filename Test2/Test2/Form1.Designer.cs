@@ -48,9 +48,14 @@
             this.lblRecName = new System.Windows.Forms.Label();
             this.txtRecName = new System.Windows.Forms.TextBox();
             this.btnSaveRec = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.lblPreview = new System.Windows.Forms.Label();
+            this.picBoxPreview = new System.Windows.Forms.PictureBox();
+            this.lblPictures = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -103,7 +108,7 @@
             // lblStartUVTitle
             // 
             this.lblStartUVTitle.AutoSize = true;
-            this.lblStartUVTitle.Location = new System.Drawing.Point(915, 291);
+            this.lblStartUVTitle.Location = new System.Drawing.Point(925, 566);
             this.lblStartUVTitle.Name = "lblStartUVTitle";
             this.lblStartUVTitle.Size = new System.Drawing.Size(50, 13);
             this.lblStartUVTitle.TabIndex = 4;
@@ -112,7 +117,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(915, 355);
+            this.label1.Location = new System.Drawing.Point(925, 630);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 5;
@@ -122,7 +127,7 @@
             // 
             this.lblEndUVText.AutoSize = true;
             this.lblEndUVText.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.lblEndUVText.Location = new System.Drawing.Point(1002, 355);
+            this.lblEndUVText.Location = new System.Drawing.Point(1012, 630);
             this.lblEndUVText.Name = "lblEndUVText";
             this.lblEndUVText.Size = new System.Drawing.Size(10, 13);
             this.lblEndUVText.TabIndex = 7;
@@ -132,7 +137,7 @@
             // 
             this.lblStartUVText.AutoSize = true;
             this.lblStartUVText.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.lblStartUVText.Location = new System.Drawing.Point(1002, 291);
+            this.lblStartUVText.Location = new System.Drawing.Point(1012, 566);
             this.lblStartUVText.Name = "lblStartUVText";
             this.lblStartUVText.Size = new System.Drawing.Size(10, 13);
             this.lblStartUVText.TabIndex = 8;
@@ -168,7 +173,6 @@
             this.btnUVLoad.Size = new System.Drawing.Size(55, 22);
             this.btnUVLoad.Text = "&Load UV";
             this.btnUVLoad.Click += new System.EventHandler(this.btnUVLoad_Click);
-            this.btnUVLoad.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // panel1
             // 
@@ -180,6 +184,7 @@
             // 
             // lstItems
             // 
+            this.lstItems.AllowDrop = true;
             this.lstItems.FormattingEnabled = true;
             this.lstItems.Location = new System.Drawing.Point(8, 31);
             this.lstItems.Name = "lstItems";
@@ -187,7 +192,10 @@
             this.lstItems.TabIndex = 0;
             this.lstItems.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstItems_DrawItem);
             this.lstItems.SelectedIndexChanged += new System.EventHandler(this.lstItems_SelectedIndexChanged);
+            this.lstItems.DragEnter += new System.Windows.Forms.DragEventHandler(this.lstItems_DragEnter);
+            this.lstItems.DragLeave += new System.EventHandler(this.lstItems_DragLeave);
             this.lstItems.DoubleClick += new System.EventHandler(this.lstItems_DoubleClick);
+            this.lstItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstItems_MouseDown);
             // 
             // lblRectangles
             // 
@@ -224,11 +232,55 @@
             this.btnSaveRec.UseVisualStyleBackColor = true;
             this.btnSaveRec.Click += new System.EventHandler(this.btnSaveRec_Click);
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(70, 312);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 15;
+            this.btnDelete.Text = "&Delete UV";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // lblPreview
+            // 
+            this.lblPreview.AutoSize = true;
+            this.lblPreview.Location = new System.Drawing.Point(922, 101);
+            this.lblPreview.Name = "lblPreview";
+            this.lblPreview.Size = new System.Drawing.Size(45, 13);
+            this.lblPreview.TabIndex = 16;
+            this.lblPreview.Text = "Preview";
+            // 
+            // picBoxPreview
+            // 
+            this.picBoxPreview.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.picBoxPreview.Location = new System.Drawing.Point(883, 133);
+            this.picBoxPreview.Name = "picBoxPreview";
+            this.picBoxPreview.Size = new System.Drawing.Size(139, 124);
+            this.picBoxPreview.TabIndex = 17;
+            this.picBoxPreview.TabStop = false;
+            this.picBoxPreview.Paint += new System.Windows.Forms.PaintEventHandler(this.picBoxPreview_Paint);
+            // 
+            // lblPictures
+            // 
+            this.lblPictures.AutoSize = true;
+            this.lblPictures.Location = new System.Drawing.Point(87, 43);
+            this.lblPictures.Name = "lblPictures";
+            this.lblPictures.Size = new System.Drawing.Size(39, 13);
+            this.lblPictures.TabIndex = 18;
+            this.lblPictures.Text = "Output";
+            this.lblPictures.DragEnter += new System.Windows.Forms.DragEventHandler(this.lblPictures_DragEnter);
+            // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 682);
+            this.Controls.Add(this.lblPictures);
+            this.Controls.Add(this.picBoxPreview);
+            this.Controls.Add(this.lblPreview);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnSaveRec);
             this.Controls.Add(this.txtRecName);
             this.Controls.Add(this.lblRecName);
@@ -243,13 +295,16 @@
             this.Controls.Add(this.buttonExport);
             this.Controls.Add(this.textOutput);
             this.Controls.Add(this.pictureBox1);
-            this.IsMdiContainer = true;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
+            this.DragLeave += new System.EventHandler(this.Form1_DragLeave);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxPreview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -276,6 +331,10 @@
         private System.Windows.Forms.TextBox txtRecName;
         private System.Windows.Forms.Button btnSaveRec;
         public System.Windows.Forms.ListBox lstItems;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label lblPreview;
+        private System.Windows.Forms.PictureBox picBoxPreview;
+        private System.Windows.Forms.Label lblPictures;
     }
 }
 

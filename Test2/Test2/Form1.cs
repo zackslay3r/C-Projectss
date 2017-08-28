@@ -26,12 +26,12 @@ namespace Test2
 
         private Point rPic1 = new Point(-1, 1);
         private Point rPic2 = new Point(-1, 1);
-
+        bool isRectDrawn = false;
 
         int widith, height;
 
-        Graphics Pic1G;
-        Stream myStream;
+        //Graphics Pic1G;
+        //Stream myStream;
 
         public string tempName = " ";
 
@@ -40,6 +40,9 @@ namespace Test2
         public List<Item> items = new List<Item>();
         public Form2 newMDIChild = new Form2();
         public string[] file;
+
+
+        public object listItem = null;
 
         //private List<Point> startPoints = new List<Point>();
         //private List<Point> endPoints = new List<Point>();
@@ -55,6 +58,29 @@ namespace Test2
         // UV points
         // This is the creation of temporary floats for the storage of UV calculations.
         double startPointUVX, startPointUVY, endPointUVX, endPointUVY;
+
+
+
+        public bool checkCollide(int x, int y, int oWidth, int oHeight, int xTwo, int yTwo, int oTwoWidth, int oTwoHeight)
+        {
+            // AABB 1
+            int x1Min = x;
+            int x1Max = x + oWidth;
+            int y1Max = y + oHeight;
+            int y1Min = y;
+
+            // AABB 2
+            int x2Min = xTwo;
+            int x2Max = xTwo + oTwoWidth;
+            int y2Max = yTwo + oTwoHeight;
+            int y2Min = yTwo;
+
+            // Collision tests
+            if (x1Max < x2Min || x1Min > x2Max) return false;
+            if (y1Max < y2Min || y1Min > y2Max) return false;
+
+            return true;
+        }
 
         private void LoadNewPict()
         {
@@ -185,6 +211,7 @@ namespace Test2
             pictureBox1.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
             widith = pictureBox1.Width - 1;
             height = pictureBox1.Height - 1;
+            btnDelete.Visible = false;
 
         }
 
@@ -263,7 +290,7 @@ namespace Test2
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            textOutput.Text = "";
+            textOutput.Text = " ";
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -281,17 +308,18 @@ namespace Test2
                 pic2 = e.Location;
                 rPic2 = pic2;
             }
-
-            this.Invalidate();
+            CheckBounds();
+            pictureBox1.Invalidate();
 
 
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-
-            if (e.Button == MouseButtons.Left)
+            isRectDrawn = false;
+            if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.None) == Keys.None)
             {
+                
                 lstItems.ClearSelected();
 
                 tempItem.startPoint = new Point(-1, 1);
@@ -301,11 +329,31 @@ namespace Test2
                 tempItem.endUVpoint.x = 0.0;
                 tempItem.endUVpoint.y = 0.0;
 
+                
+            }
+
+            if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.Shift) == Keys.Shift)
+            {
+                if (mRect != null)
+                {
+                    if (checkCollide(e.Location.X, e.Location.Y, 1, 1, mRect.X, mRect.Y, mRect.Width, mRect.Height))
+                    {
+                        int tempX, tempY;
+                        tempX = mRect.X;
+                        tempY = mRect.Y;
+
+
+                        mRect.X += e.X - tempX;
+                        mRect.Y += e.Y - tempY;
+
+                    }
+                }
+            }
+
+                CheckBounds();
+
                 pic1 = e.Location;
                 rPic1 = pic1;
-            }
-            
-
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -317,6 +365,7 @@ namespace Test2
 
             if (e.Button == MouseButtons.Left)
             {
+                
                 if (pic2.X < pic1.X)
                 {
                     rPic2.X = pic1.X;
@@ -390,7 +439,10 @@ namespace Test2
                 tempItem.startUVpoint.y = startPointUVY;
                 tempItem.endUVpoint.x = endPointUVX;
                 tempItem.endUVpoint.y = endPointUVY;
+                isRectDrawn = true;
 
+                
+               
             }
         }
 
@@ -433,8 +485,23 @@ namespace Test2
 
                 if (pic1.X >= 0 && pic1.Y >= 0 && pic2.X >= 0 && pic2.Y >= 0)
                 {
-                    e.Graphics.Clear(pictureBox1.BackColor);
-                    e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - rPic1.Y));
+                    //pictureBox1..Refresh();
+                    mRect = new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - rPic1.Y);
+                    
+                     
+                    if (pictureBox1.Image != null)
+                    {
+                        e.Graphics.DrawImage(pictureBox1.Image, 0, 0, pictureBox1.Width, pictureBox1.Height);
+                        //e.Graphics.DrawImage(pictureBox1.Image, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - rPic1.Y), picBoxPreview.Location.X, picBoxPreview.Location.Y, picBoxPreview.Width, picBoxPreview.Height,);
+                        //e.Graphics.DrawImage(pictureBox1.Image, picBoxPreview.Location.X, picBoxPreview.Location.Y, picBoxPreview.Width, picBoxPreview.Height);
+                        //e.Graphics.DrawImage(pictureBox1.Image, 0, 0, 200, 200);
+                     
+                    }
+                    e.Graphics.DrawRectangle(Pens.Blue, mRect);
+                 
+                   
+                    
+                    
                 }
             }
         }
@@ -447,26 +514,39 @@ namespace Test2
                 items.Add(tempItem);
                 tempItem = new Item();
             }
+            textOutput.Text = "";
+            rPic1.X = 0;
+            rPic1.Y = 0;
+            rPic2.X = 0;
+            rPic2.Y = 0;
         }
 
         private void lstItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            lstItems.DoDragDrop(lstItems.Items.IndexOf(selectedIndex), DragDropEffects.Move);
 
             if (lstItems.SelectedIndex == -1)
             {
                 textOutput.Text = "";
+                rPic1.X = 0;
+                rPic1.Y = 0;
+                rPic2.X = 0;
+                rPic2.Y = 0;
+                btnDelete.Visible = false;
             }
+            //else
+            //{
+            //    btnDelete.Visible = true;
 
-            else
-            {
-                textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
-                textOutput.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
 
-                selectedIndex = lstItems.SelectedIndex;
-                pictureBox1.Invalidate();
-            }
-          
+
+            //    textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
+            //    textOutput.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
+
+            //    selectedIndex = lstItems.SelectedIndex;
+            //    pictureBox1.Invalidate();
+            //}
+
         }
 
         private void lstItems_DrawItem(object sender, DrawItemEventArgs e)
@@ -476,6 +556,107 @@ namespace Test2
                                     items.ElementAt(lstItems.SelectedIndex).endPoints.X - items.ElementAt(lstItems.SelectedIndex).startPoint.X,
                                     items.ElementAt(lstItems.SelectedIndex).endPoints.Y - items.ElementAt(lstItems.SelectedIndex).startPoint.Y
                                     ));
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if(selectedIndex != -1)
+            {
+                lstItems.Items.RemoveAt(selectedIndex);
+                items.RemoveAt(selectedIndex);
+            }
+        }
+
+        private void lstItems_DragLeave(object sender, EventArgs e)
+        {
+            //if (selectedIndex != -1)
+            //{
+            //    lstItems.Items.RemoveAt(selectedIndex);
+            //    items.RemoveAt(selectedIndex);
+            //}
+        }
+
+        //private void lstItems_DragDrop(object sender, DragEventArgs e)
+        //{
+        //    if (selectedIndex != -1)
+        //    {
+        //        lstItems.Items.RemoveAt(selectedIndex);
+        //        items.RemoveAt(selectedIndex);
+        //    }
+        //}
+
+        private void lstItems_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (lstItems.SelectedIndex == -1)
+            {
+                //textOutput.Text = "";
+                //rPic1.X = 0;
+                //rPic1.Y = 0;
+                //rPic2.X = 0;
+                //rPic2.Y = 0;
+                btnDelete.Visible = false;
+            }
+            else
+            {
+                btnDelete.Visible = true;
+                
+
+
+                textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
+                textOutput.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
+
+                selectedIndex = lstItems.SelectedIndex;
+                pictureBox1.Invalidate();
+                
+            }
+            
+            
+        }
+
+        private void picBoxPreview_Paint(object sender, PaintEventArgs e)
+        {
+            //e.Graphics.DrawImage(pictureBox1.Image, picBoxPreview.Location.X, picBoxPreview.Location.Y, picBoxPreview.Width, picBoxPreview.Height);
+            if (isRectDrawn == true)
+            {
+                //e.Graphics.DrawImage(pictureBox1.Image, rPic1.X, rPic1.Y, picBoxPreview.Width, picBoxPreview.Height);
+                //e.Graphics.DrawImage(pictureBox1.Image, picBoxPreview.Location.X, picBoxPreview.Location.Y, picBoxPreview.Width, picBoxPreview.Height);
+                e.Graphics.DrawImage(pictureBox1.Image, mRect);
+            }
+        }
+
+        private void lblPictures_DragEnter(object sender, DragEventArgs e)
+        {
+
+        }
+
+        private void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+           e.Effect = DragDropEffects.All;
+        }
+
+        private void Form1_DragDrop(object sender, DragEventArgs e)
+        {
+            if (selectedIndex != -1)
+            {
+                
+                items.RemoveAt(selectedIndex);
+                lstItems.Items.RemoveAt(selectedIndex);
+            }
+        }
+
+        private void Form1_DragLeave(object sender, EventArgs e)
+        {
+            if (selectedIndex != -1)
+            {
+                lstItems.Items.RemoveAt(selectedIndex);
+                items.RemoveAt(selectedIndex);
+            }
+        }
+
+        private void lstItems_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+            //lstItems.DoDragDrop(lstItems.Items.IndexOf(selectedIndex), DragDropEffects.Move);
         }
 
         private void lstItems_DoubleClick(object sender, EventArgs e)
@@ -489,6 +670,7 @@ namespace Test2
         private void timer1_Tick(object sender, EventArgs e)
         {
            pictureBox1.Refresh();
+            picBoxPreview.Refresh();
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
