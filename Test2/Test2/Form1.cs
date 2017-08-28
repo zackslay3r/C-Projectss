@@ -106,32 +106,70 @@ namespace Test2
                         newMDIChild.parent = this;
 
                         newMDIChild.file = File.ReadAllLines(dlg.FileName);
+                        foreach (var item in newMDIChild.file)
+                            {
+
+                                // This splits the values up and stores them in the temporary item.
+                                string[] values = item.Split();
+                                tempItem.startPoint = (new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
+                                tempItem.endPoints = (new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
+                                tempItem.startUVpoint = (new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
+                                tempItem.endUVpoint = (new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
+
+                                newMDIChild.ofItemsToChange.Add(tempItem);
+                                tempItem = new Item();
+                            }
 
                     }
                 }
-
-                foreach (var item in newMDIChild.file)
-                {
-
-                    // This splits the values up and stores them in the temporary item.
-                    string[] values = item.Split();
-                    tempItem.startPoint = (new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
-                    tempItem.endPoints = (new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
-                    tempItem.startUVpoint = (new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
-                    tempItem.endUVpoint = (new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
-
-                    newMDIChild.ofItemsToChange.Add(tempItem);
-                    tempItem = new Item();
-                }
-            }                        //Form2 newMDIChild = new Form2();
-                                     //newMDIChild.Show();
-
+              
+               
+            }                     
 
 
 
         }
-          
-        
+
+        public void CheckBounds()
+        {
+            if (pic2.X < 0)
+            {
+                pic2.X = 0;
+
+            }
+            if (pic2.Y < 0)
+            {
+                pic2.Y = 0;
+
+            }
+            if (pic2.X > widith)
+            {
+                pic2.X = widith;
+
+                rPic2.X = pic2.X;
+            }
+            if (pic2.Y > height)
+            {
+                pic2.Y = height;
+
+                rPic2.Y = pic2.Y;
+            }
+
+            if (pic2.X < pic1.X)
+            {
+                rPic2.X = pic1.X;
+                rPic1.X = pic2.X;
+
+            }
+            if (pic2.Y < pic1.Y)
+            {
+                rPic2.Y = pic1.Y;
+                rPic1.Y = pic2.Y;
+
+            }
+
+
+        }
 
 
 
@@ -139,7 +177,7 @@ namespace Test2
         public Form1()
         {
             InitializeComponent();
-            //this.DoubleBuffered = true;
+            
 
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
@@ -195,15 +233,6 @@ namespace Test2
 
                 
 
-                //myStream.Write(pic1.X.ToString() + " ");
-                //myStream.Write(pic1.Y.ToString() + " ");
-                //myStream.Write(pic2.X.ToString() + " ");
-                //myStream.Write(pic2.Y.ToString() + " ");
-                //myStream.Write(startPointUVX.ToString("n2") + " ");
-                //myStream.Write(startPointUVY.ToString("n2") + " ");
-                //myStream.Write(endPointUVX.ToString("n2") + " ");
-                //myStream.Write(endPointUVY.ToString("n2") + " ");
-                //startOfFile = false;
 
                 // incorporate in a for loop for outputing to a file.
                 for (int i = 0; i < items.Count; i++)
@@ -253,44 +282,6 @@ namespace Test2
                 rPic2 = pic2;
             }
 
-            if (pic2.X < 0)
-            {
-                pic2.X = 0;
-
-            }
-            if (pic2.Y < 0)
-            {
-                pic2.Y = 0;
-
-            }
-            if (pic2.X > widith)
-            {
-                pic2.X = widith;
-                //pic2.X = 596;
-                rPic2.X = pic2.X;
-            }
-            if (pic2.Y > height)
-            {
-                pic2.Y = height;
-                //pic2.Y = 440;
-                rPic2.Y = pic2.Y;
-            }
-
-            if (pic2.X < pic1.X)
-            {
-                rPic2.X = pic1.X;
-                rPic1.X = pic2.X;
-
-            }
-            if (pic2.Y < pic1.Y)
-            {
-                rPic2.Y = pic1.Y;
-                rPic1.Y = pic2.Y;
-
-            }
-
-
-
             this.Invalidate();
 
 
@@ -326,9 +317,6 @@ namespace Test2
 
             if (e.Button == MouseButtons.Left)
             {
-                //pic2 = e.Location;
-                //rPic2 = pic2;
-
                 if (pic2.X < pic1.X)
                 {
                     rPic2.X = pic1.X;
@@ -362,7 +350,13 @@ namespace Test2
                 endPointUVY = ((float)pic2.Y / (float)pictureBox1.Height);
 
 
+                if(pic1.X > pic2.X && pic1.Y > pic2.Y)
+                {
+                  
 
+
+
+                }
 
 
 
@@ -425,7 +419,7 @@ namespace Test2
             selectedIndex = lstItems.SelectedIndex;
             if (selectedIndex != -1)
             {
-                e.Graphics.Clear(pictureBox1.BackColor);
+                //e.Graphics.Clear(pictureBox1.BackColor);
                 e.Graphics.DrawRectangle(Pens.Red, new Rectangle(items.ElementAt(selectedIndex).startPoint.X,
                                     items.ElementAt(selectedIndex).startPoint.Y,
                                     items.ElementAt(selectedIndex).endPoints.X - items.ElementAt(selectedIndex).startPoint.X,
