@@ -71,7 +71,7 @@ namespace Test2
 
                     // Create a new Bitmap object from the picture file on disk,
                     // and assign that to the PictureBox.Image property
-                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                    pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
 
                     pictureBox1.Image = Image.FromFile(dlg.FileName);
 
@@ -145,8 +145,8 @@ namespace Test2
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(pictureBox1_Paint);
             pictureBox1.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
-            widith = pictureBox1.Width;
-            height = pictureBox1.Height;
+            widith = pictureBox1.Width - 1;
+            height = pictureBox1.Height - 1;
 
         }
 
@@ -255,19 +255,25 @@ namespace Test2
 
             if (pic2.X < 0)
             {
-                pic2.X = 1;
+                pic2.X = 0;
+
             }
             if (pic2.Y < 0)
             {
-                pic2.Y = 1;
+                pic2.Y = 0;
+
             }
             if (pic2.X > widith)
             {
-                pic2.X = widith - 1;
+                pic2.X = widith;
+                //pic2.X = 596;
+                rPic2.X = pic2.X;
             }
             if (pic2.Y > height)
             {
-                pic2.Y = height - 1;
+                pic2.Y = height;
+                //pic2.Y = 440;
+                rPic2.Y = pic2.Y;
             }
 
             if (pic2.X < pic1.X)
@@ -282,8 +288,8 @@ namespace Test2
                 rPic1.Y = pic2.Y;
 
             }
-          
-        
+
+
 
             this.Invalidate();
 
@@ -295,6 +301,8 @@ namespace Test2
 
             if (e.Button == MouseButtons.Left)
             {
+                lstItems.ClearSelected();
+
                 tempItem.startPoint = new Point(-1, 1);
                 tempItem.endPoints = new Point(-1, 1);
                 tempItem.startUVpoint.x = 0.0;
@@ -312,15 +320,40 @@ namespace Test2
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
 
-
+            
             
 
 
             if (e.Button == MouseButtons.Left)
             {
+                //pic2 = e.Location;
+                //rPic2 = pic2;
 
-               
-                
+                if (pic2.X < pic1.X)
+                {
+                    rPic2.X = pic1.X;
+                    rPic1.X = pic2.X;
+
+                }
+                if (pic2.Y < pic1.Y)
+                {
+                    rPic2.Y = pic1.Y;
+                    rPic1.Y = pic2.Y;
+
+                }
+
+                //if (pic2.X > widith)
+                //{
+                //    pic2.X = widith;
+                //    rPic2 = pic2;
+
+                //}
+                //if (pic2.Y > height)
+                //{
+                //    pic2.Y = height;
+                //    rPic2 = pic2;
+                //}
+
                 // this will do the calculations of the UV for us dynamically.
                 startPointUVX = ((float)pic1.X / (float)pictureBox1.Width);
                 startPointUVY = ((float)pic1.Y / (float)pictureBox1.Height);
@@ -328,10 +361,19 @@ namespace Test2
                 endPointUVX = ((float)pic2.X / (float)pictureBox1.Width);
                 endPointUVY = ((float)pic2.Y / (float)pictureBox1.Height);
 
-                
 
 
-                pic2 = e.Location;
+
+
+
+                //if (pic2.X < 0)
+                //{
+                //    pic2.X = 0;
+                //}
+                //if (pic2.Y < 0)
+                //{
+                //    pic2.Y = 0;
+                //}
                 //textOutput.Text = "startpos =" + pic1.X.ToString() + " " + pic1.Y.ToString() + Environment.NewLine;
                 //textOutput.Text += "endpos =" + pic2.X.ToString() + " " + pic2.Y.ToString() + Environment.NewLine;
                 //textOutput.Text += "startUV =" + startPointUVX.ToString("n2") + ", " + startPointUVY.ToString("n2") + Environment.NewLine;
@@ -380,12 +422,27 @@ namespace Test2
             //    //  pic2.Y = pictureBox1.Height;
             //    e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - pictureBox1.Height));
             //}
-
-            if (pic1.X > 0 && pic1.Y > 0 && pic2.X > 0 && pic2.Y > 0)
+            selectedIndex = lstItems.SelectedIndex;
+            if (selectedIndex != -1)
             {
-               e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - rPic1.Y));                
+                e.Graphics.Clear(pictureBox1.BackColor);
+                e.Graphics.DrawRectangle(Pens.Red, new Rectangle(items.ElementAt(selectedIndex).startPoint.X,
+                                    items.ElementAt(selectedIndex).startPoint.Y,
+                                    items.ElementAt(selectedIndex).endPoints.X - items.ElementAt(selectedIndex).startPoint.X,
+                                    items.ElementAt(selectedIndex).endPoints.Y - items.ElementAt(selectedIndex).startPoint.Y
+                                    ));
             }
-           
+
+
+            else
+            {
+
+                if (pic1.X >= 0 && pic1.Y >= 0 && pic2.X >= 0 && pic2.Y >= 0)
+                {
+                    e.Graphics.Clear(pictureBox1.BackColor);
+                    e.Graphics.DrawRectangle(Pens.Blue, new Rectangle(rPic1.X, rPic1.Y, rPic2.X - rPic1.X, rPic2.Y - rPic1.Y));
+                }
+            }
         }
 
         private void btnSaveRec_Click(object sender, EventArgs e)
@@ -400,19 +457,21 @@ namespace Test2
 
         private void lstItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
 
             if (lstItems.SelectedIndex == -1)
             {
                 textOutput.Text = "";
             }
-           
 
-            textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
-            textOutput.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
+            else
+            {
+                textOutput.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
+                textOutput.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
 
-            selectedIndex = lstItems.SelectedIndex;
-            this.Invalidate();
+                selectedIndex = lstItems.SelectedIndex;
+                pictureBox1.Invalidate();
+            }
           
         }
 
