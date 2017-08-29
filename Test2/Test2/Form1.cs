@@ -161,43 +161,56 @@ namespace Test2
 
         }
 
-        public void CheckBounds()
+        public void CheckBounds(Rectangle rec)
         {
-            if (pic2.X < 0)
+            //if (pic2.X < 0)
+            //{
+            //    pic2.X = 0;
+
+            //}
+            //if (pic2.Y < 0)
+            //{
+            //    pic2.Y = 0;
+
+            //}
+            //if (pic2.X > widith)
+            //{
+            //    pic2.X = widith;
+
+            //    rPic2.X = pic2.X;
+            //}
+            //if (pic2.Y > height)
+            //{
+            //    pic2.Y = height;
+
+            //    rPic2.Y = pic2.Y;
+            //}
+
+            if (rec.Left < 0)
             {
-                pic2.X = 0;
-
+                rec.Location = new Point(0, rec.Top);
             }
-            if (pic2.Y < 0)
+            if (rec.Top < 0)
             {
-                pic2.Y = 0;
-
-            }
-            if (pic2.X > widith)
-            {
-                pic2.X = widith;
-
-                rPic2.X = pic2.X;
-            }
-            if (pic2.Y > height)
-            {
-                pic2.Y = height;
-
-                rPic2.Y = pic2.Y;
+                rec.Location = new Point(rec.Left, 0);
             }
 
-            if (pic2.X < pic1.X)
-            {
-                rPic2.X = pic1.X;
-                rPic1.X = pic2.X;
 
-            }
-            if (pic2.Y < pic1.Y)
-            {
-                rPic2.Y = pic1.Y;
-                rPic1.Y = pic2.Y;
 
-            }
+
+
+            //if (pic2.X < pic1.X)
+            //{
+            //    rPic2.X = pic1.X;
+            //    rPic1.X = pic2.X;
+
+            //}
+            //if (pic2.Y < pic1.Y)
+            //{
+            //    rPic2.Y = pic1.Y;
+            //    rPic1.Y = pic2.Y;
+
+            //}
 
 
         }
@@ -311,14 +324,14 @@ namespace Test2
             if (e.Button == MouseButtons.Left)
             {
                 // old code, uncomment if required.
-                pic2 = e.Location;
+                //pic2 = e.Location;
                 rPic2 = pic2;
                 
                 //pictureBox1.Invalidate();
 
                 mRect.Width = e.X - mRect.X;
                 mRect.Height = e.Y - mRect.Y;
-                CheckBounds();
+                CheckBounds(mRect);
                 this.Invalidate();
             }
             
@@ -386,7 +399,7 @@ namespace Test2
 
                 // new code.
                 mRect = new Rectangle(e.X, e.Y, 0, 0);
-                CheckBounds();
+                CheckBounds(mRect);
                 Invalidate();
 
             }
@@ -409,18 +422,7 @@ namespace Test2
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
             {
                 
-                if (pic2.X < pic1.X)
-                {
-                    rPic2.X = pic1.X;
-                    rPic1.X = pic2.X;
-
-                }
-                if (pic2.Y < pic1.Y)
-                {
-                    rPic2.Y = pic1.Y;
-                    rPic1.Y = pic2.Y;
-
-                }
+              
 
                 //if (pic2.X > widith)
                 //{
