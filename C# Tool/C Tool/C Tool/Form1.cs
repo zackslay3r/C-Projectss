@@ -25,6 +25,13 @@ namespace C_Tool
         Rectangle rec;
         private Point rPic1 = new Point(-1, 1);
         Point finalRecPos = new Point();
+        MainFormManager mfrmmanager = new MainFormManager();
+        public Item tempItem = new Item();
+        public List<Item> items = new List<Item>();
+        public AddName AddNameForm = new AddName();
+        public string[] file;
+
+
 
         bool scaleHeight, scaleWidith = true;
 
@@ -51,42 +58,7 @@ namespace C_Tool
 
         public void CheckBounds(Point mousePos)
         {
-            //if (rec.Width > 500)
-            //{
-            //    //finalRecPos.X = 500;
-            //    rec.Width = 500;
-
-            //}
-            //if (finalRecPos.Y < 0)
-            //{
-            //    finalRecPos.Y = 1;
-
-            //}
-            //if (pic2.X > widith)
-            //{
-            //    pic2.X = widith;
-
-            //    rPic2.X = pic2.X;
-            //}
-            //if (pic2.Y > height)
-            //{
-            //    pic2.Y = height;
-
-            //    rPic2.Y = pic2.Y;
-            //}
-
-            //if (pic2.X < pic1.X)
-            //{
-            //    rPic2.X = pic1.X;
-            //    rPic1.X = pic2.X;
-
-            //}
-            //if (pic2.Y < pic1.Y)
-            //{
-            //    rPic2.Y = pic1.Y;
-            //    rPic1.Y = pic2.Y;
-
-            //}
+       
             if (rec.Left < 0)
             {
                 rec.Location = new Point(0, rec.Top);
@@ -120,29 +92,117 @@ namespace C_Tool
             }
 
 
-            //if ((rec.Left + rec.Width) > pictureBox1.Width)
-            //{
-            //    //rec.Location = new Point(pictureBox1.Width - rec.Width - 1, rec.Top);
-            //    scaleWidith = false;
-            //}
-            //else
-            //{
-            //    scaleWidith = true;
-            //}
-
-            //if ((rec.Top + rec.Height) > pictureBox1.Height)
-            //{
-            //    //rec.Location = new Point(pictureBox1.Height - rec.Height, rec.Height);
-            //    scaleHeight = false;
-            //}
-            //else
-            //{
-            //    scaleHeight = true;
-            //}
+      
 
         }
 
 
+        public void CheckDraggingRec()
+        {
+            if (rec.Left < 0)
+            {
+                rec.Location = new Point(0, rec.Top);
+                scaleWidith = false;
+            }
+            else if (rec.Left + rec.Width > pictureBox1.Width)
+            {
+                rec.Location = new Point(pictureBox1.Width - rec.Width - 1, rec.Top);
+                scaleWidith = false;
+            }
+            else
+            {
+                scaleWidith = true;
+            }
+
+            if (rec.Top < 0)
+            {
+                rec.Location = new Point(rec.Left, 0);
+                scaleHeight = false;
+            }
+            else if (rec.Top + rec.Height > pictureBox1.Height)
+            {
+                rec.Location = new Point(rec.Left, pictureBox1.Height - rec.Height - 1);
+                scaleHeight = false;
+            }
+            else
+            {
+                scaleHeight = true;
+            }
+
+        }
+
+        public void LoadNewPict()
+        {
+            // Wrap the creation of the OpenFileDialog instance in a using statement,
+            // rather than manually calling the Dispose method to ensure proper disposal
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+                dlg.Title = "Open Image";
+                dlg.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*";
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // PictureBox1 = new PictureBox();
+
+                    // Create a new Bitmap object from the picture file on disk,
+                    // and assign that to the PictureBox.Image property
+                    pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                    pictureBox1.Image = Image.FromFile(dlg.FileName);
+
+                    //picBox.Image = PictureBox1.Image;
+
+                }
+            }
+        }
+
+
+        public void LoadUVCoords()
+        {
+            bool loadComplete = false;
+
+
+
+
+            //using (OpenFileDialog dlg = new OpenFileDialog())
+            //{
+                
+            //        dlg.Title = "Open UV";
+            //        dlg.Filter = "Text files (.txt)| *.txt";
+
+
+            //        if (dlg.ShowDialog() == DialogResult.OK)
+            //        {
+
+            //            AddNameForm.Show();
+            //            AddNameForm.theFileName = dlg.FileName;
+            //            AddNameForm.parent = this;
+
+            //            AddNameForm.file = File.ReadAllLines(dlg.FileName);
+            //            foreach (var item in AddNameForm.file)
+            //            {
+
+            //                // This splits the values up and stores them in the temporary item.
+            //                string[] values = item.Split();
+            //                tempItem.startPoint = (new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
+            //                tempItem.endPoints = (new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
+            //                tempItem.startUVpoint = (new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
+            //                tempItem.endUVpoint = (new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
+
+            //                AddNameForm.ofItemsToChange.Add(tempItem);
+            //                tempItem = new Item();
+            //            }
+
+            //        }
+            //    }
+
+
+            
+
+
+
+
+        }
         private void pictureBox2_Click(object sender, EventArgs e)
         {
 
@@ -223,12 +283,20 @@ namespace C_Tool
                 {
                     if (checkCollide(e.Location.X, e.Location.Y, 1, 1, rec.X, rec.Y, rec.Width, rec.Height))
                     {
+
                         rec.Location = Point.Add(rec.Location, (Size)Point.Subtract(e.Location, (Size)MouseDownLocation));
+                        
                         MouseDownLocation = e.Location;
+                        CheckDraggingRec();
                         pictureBox1.Refresh();
                     }
                 }
             }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            LoadNewPict();
         }
 
         private void tmrClock_Tick(object sender, EventArgs e)
