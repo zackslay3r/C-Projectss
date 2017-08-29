@@ -59,13 +59,21 @@ namespace C_Tool
 
         public void CheckBounds(Point mousePos)
         {
-       
+            if (rec.X < 0)
+            {
+                rec.X = 0;
+            }
+            if (rec.Y < 0)
+            {
+                rec.Y = 0;
+            }
+
             if (rec.Left < 0)
             {
                 rec.Location = new Point(0, rec.Top);
                 scaleWidith = false;
             }
-            else if(mousePos.X > pictureBox1.Width)
+            else if(mousePos.X + 2 > pictureBox1.Width)
             {
                 rec.Location = new Point(pictureBox1.Width - rec.Width - 1, rec.Top);
                 scaleWidith = false;
@@ -82,7 +90,7 @@ namespace C_Tool
                 rec.Location = new Point(rec.Left, 0);
                 scaleHeight = false;
             }
-            else if(mousePos.Y > pictureBox1.Height)
+            else if(mousePos.Y + 2 > pictureBox1.Height)
             {
                 rec.Location = new Point(rec.Left, pictureBox1.Height - rec.Height - 1);
                 scaleHeight = false;
@@ -95,6 +103,18 @@ namespace C_Tool
 
       
 
+        }
+
+        public void cleanStart()
+        {
+            if (rec.X < 0)
+            {
+                rec.X = 0;
+            }
+            if (rec.Y < 0)
+            {
+                rec.Y = 0;
+            }
         }
 
         public void CleanUpUVS()
@@ -118,7 +138,7 @@ namespace C_Tool
             }
             else if (rec.Left + rec.Width > pictureBox1.Width)
             {
-                rec.Location = new Point(pictureBox1.Width - rec.Width - 1, rec.Top);
+                rec.Location = new Point(pictureBox1.Width - rec.Width, rec.Top - 1);
                 scaleWidith = false;
             }
             else
@@ -235,6 +255,7 @@ namespace C_Tool
             else
             {
                 e.Graphics.DrawRectangle(Pens.LightGreen, rec);
+            
             }
         }
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -243,9 +264,13 @@ namespace C_Tool
         //can also use this one:
         //if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-               rPic1 = e.Location;
+                lstItems.SelectedIndex = -1;
+                rPic1 = e.Location;
+                tempItem.startPoint = rPic1;
                 rec = new Rectangle(e.X, e.Y, 1, 1);
-                
+
+                CheckBounds(e.Location);
+
                 //rec = new Rectangle(rPic1.X, rPic1.Y, 0, 0);
                 Invalidate();
                 
@@ -295,7 +320,7 @@ namespace C_Tool
                 CheckBounds(e.Location);
 
                 lblStartPText.Text = rPic1.X.ToString() + " " + rPic1.Y.ToString();
-                lblEndPText.Text = e.Location.X.ToString() + " " + e.Location.Y.ToString();
+                lblEndPText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
 
                 this.Invalidate();
             }
@@ -340,8 +365,18 @@ namespace C_Tool
 
 
 
-               lblStartPText.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
-               lblEndPText.Text = items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
+                lblStartPText.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.X.ToString() + " ";
+                lblStartPText.Text += items.ElementAt(lstItems.SelectedIndex).startPoint.Y.ToString() + Environment.NewLine;
+
+                lblEndPText.Text = items.ElementAt(lstItems.SelectedIndex).endPoints.X.ToString() + " ";
+                lblEndPText.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.Y.ToString() + Environment.NewLine;
+
+                lblStartUvText.Text = items.ElementAt(lstItems.SelectedIndex).startUVpoint.x.ToString("n2") + " ";
+                lblStartUvText.Text += items.ElementAt(lstItems.SelectedIndex).startUVpoint.y.ToString("n2") + Environment.NewLine;
+
+                lblEndUvText.Text = items.ElementAt(lstItems.SelectedIndex).endUVpoint.x.ToString("n2") + " ";
+                lblEndUvText.Text += items.ElementAt(lstItems.SelectedIndex).endUVpoint.y.ToString("n2") + Environment.NewLine;
+
 
                 selectedIndex = lstItems.SelectedIndex;
                 pictureBox1.Invalidate();
@@ -354,20 +389,23 @@ namespace C_Tool
             if (txtRecName != null)
             {
                 lstItems.Items.Add(txtRecName.Text);
+                
                 items.Add(tempItem);
                 tempItem = new Item();
             }
             lblEndPText.Text = " ";
             lblStartPText.Text = " ";
             lblStartUvText.Text = " ";
-            lblEndPText.Text = " ";
+            lblEndUvText.Text = " ";
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
             {
+                cleanStart();
                 Point endPoint = new Point();
+
 
                 endPoint.X = rec.Location.X + rec.Width;
                 endPoint.Y = rec.Location.Y + rec.Height;
@@ -377,6 +415,7 @@ namespace C_Tool
                 EndUVX = ((double)endPoint.X / (double)pictureBox1.Width);
                 EndUVY = ((double)endPoint.Y / (double)pictureBox1.Height);
 
+                
 
                 //EndUVX = ((double)e.X / (double)pictureBox1.Width);
                 //EndUVY = ((double)e.Y / (double)pictureBox1.Height);
@@ -391,12 +430,17 @@ namespace C_Tool
                 lblEndUvText.Text = EndUVX.ToString("n2") + " " + EndUVY.ToString("n2");
 
 
-                tempItem.startPoint = rPic1;
-                tempItem.endPoints = e.Location;
+                tempItem.startPoint = rec.Location;
+                tempItem.endPoints = endPoint;
                 tempItem.startUVpoint.x = StartUVX;
                 tempItem.startUVpoint.y = StartUVY;
                 tempItem.endUVpoint.x = EndUVX;
                 tempItem.endUVpoint.y = EndUVY;
+            }
+            if(e.Button == MouseButtons.Right)
+            {
+                
+
             }
         }
 
