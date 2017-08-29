@@ -145,9 +145,11 @@
             this.pictureBox2.Location = new System.Drawing.Point(855, 91);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(164, 139);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 6;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            this.pictureBox2.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox2_Paint);
             // 
             // lblStartPText
             // 
@@ -197,6 +199,7 @@
             this.btnExport.TabIndex = 11;
             this.btnExport.Text = "&Export UV\'s";
             this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnSave
             // 
@@ -216,6 +219,7 @@
             this.btnDeleteItem.TabIndex = 13;
             this.btnDeleteItem.Text = "&Delete Item";
             this.btnDeleteItem.UseVisualStyleBackColor = true;
+            this.btnDeleteItem.Click += new System.EventHandler(this.btnDeleteItem_Click);
             // 
             // panel1
             // 
@@ -267,6 +271,7 @@
             this.btnClearArea.TabIndex = 18;
             this.btnClearArea.Text = "&Clear Area";
             this.btnClearArea.UseVisualStyleBackColor = true;
+            this.btnClearArea.Click += new System.EventHandler(this.btnClearArea_Click);
             // 
             // tmrClock
             // 

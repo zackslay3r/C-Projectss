@@ -17,6 +17,7 @@ namespace C_Tool
 
         public Rectangle rectangle = new Rectangle();
 
+        
         public string name { get; set; }
     }
 }

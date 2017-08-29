@@ -235,6 +235,19 @@ namespace C_Tool
 
 
         }
+
+        public static Bitmap CropImage(Image source, int x, int y, int width, int height)
+        {
+            Rectangle crop = new Rectangle(x, y, width, height);
+
+            var bmp = new Bitmap(crop.Width, crop.Height);
+            using (var gr = Graphics.FromImage(bmp))
+            {
+                gr.DrawImage(source, new Rectangle(0, 0, bmp.Width, bmp.Height), crop, GraphicsUnit.Pixel);
+            }
+            return bmp;
+        }
+
         private void pictureBox2_Click(object sender, EventArgs e)
         {
 
@@ -322,6 +335,8 @@ namespace C_Tool
                 lblStartPText.Text = rPic1.X.ToString() + " " + rPic1.Y.ToString();
                 lblEndPText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
 
+
+                
                 this.Invalidate();
             }
 
@@ -352,6 +367,73 @@ namespace C_Tool
             LoadUVCoords();
         }
 
+        private void btnDeleteItem_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex != -1)
+            {
+                lstItems.Items.RemoveAt(selectedIndex);
+                items.RemoveAt(selectedIndex);
+            }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+            bool startOfFile = true;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+
+                StreamWriter myStream = new StreamWriter(saveFileDialog1.FileName);
+
+
+
+
+
+                // incorporate in a for loop for outputing to a file.
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if (startOfFile == false)
+                    {
+                        //this writes the new line for the file.
+                        myStream.Write("\r\n");
+                    }
+
+                    myStream.Write(items.ElementAt(i).startPoint.X.ToString() + " ");
+                    myStream.Write(items.ElementAt(i).startPoint.Y.ToString() + " ");
+                    myStream.Write(items.ElementAt(i).endPoints.X.ToString() + " ");
+                    myStream.Write(items.ElementAt(i).endPoints.Y.ToString() + " ");
+                    myStream.Write(items.ElementAt(i).startUVpoint.x.ToString("n2") + " ");
+                    myStream.Write(items.ElementAt(i).startUVpoint.y.ToString("n2") + " ");
+                    myStream.Write(items.ElementAt(i).endUVpoint.x.ToString("n2") + " ");
+                    myStream.Write(items.ElementAt(i).endUVpoint.y.ToString("n2") + " ");
+                    startOfFile = false;
+                }
+
+
+                // Code to write the stream goes here. 
+                myStream.Close();
+
+            }
+        }
+
+        private void btnClearArea_Click(object sender, EventArgs e)
+        {
+            lblEndPText.Text = " ";
+            lblStartPText.Text = " ";
+            lblStartUvText.Text = " ";
+            lblEndUvText.Text = " ";
+            rec = new Rectangle();
+        }
+
+        private void pictureBox2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         private void lstItems_MouseDown(object sender, MouseEventArgs e)
         {
             if (lstItems.SelectedIndex == -1)
@@ -379,8 +461,10 @@ namespace C_Tool
 
 
                 selectedIndex = lstItems.SelectedIndex;
+                //pictureBox2.Image = CropImage(pictureBox1.Image, rec.Location.X, rec.Location.Y, rec.Width, rec.Height);
                 pictureBox1.Invalidate();
-
+                pictureBox2.Invalidate();
+                
             }
         }
 
@@ -397,6 +481,7 @@ namespace C_Tool
             lblStartPText.Text = " ";
             lblStartUvText.Text = " ";
             lblEndUvText.Text = " ";
+            rec = new Rectangle();
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -436,6 +521,10 @@ namespace C_Tool
                 tempItem.startUVpoint.y = StartUVY;
                 tempItem.endUVpoint.x = EndUVX;
                 tempItem.endUVpoint.y = EndUVY;
+
+                pictureBox2.Image = CropImage(pictureBox1.Image, rec.Location.X, rec.Location.Y, rec.Width, rec.Height);
+
+                pictureBox2.Invalidate();
             }
             if(e.Button == MouseButtons.Right)
             {
@@ -447,6 +536,7 @@ namespace C_Tool
         private void tmrClock_Tick(object sender, EventArgs e)
         {
             pictureBox1.Refresh();
+            pictureBox2.Refresh();
         }
     }
 }
