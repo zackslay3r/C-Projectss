@@ -57,6 +57,7 @@
             this.btnNameRegester.TabIndex = 2;
             this.btnNameRegester.Text = "button1";
             this.btnNameRegester.UseVisualStyleBackColor = true;
+            this.btnNameRegester.Click += new System.EventHandler(this.btnNameRegester_Click);
             // 
             // AddName
             // 

@@ -79,6 +79,7 @@
             this.textOutput.Name = "textOutput";
             this.textOutput.Size = new System.Drawing.Size(192, 100);
             this.textOutput.TabIndex = 1;
+            this.textOutput.TextChanged += new System.EventHandler(this.textOutput_TextChanged);
             // 
             // buttonExport
             // 

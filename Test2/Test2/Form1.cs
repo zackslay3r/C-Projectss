@@ -705,6 +705,11 @@ namespace Test2
             }
         }
 
+        private void textOutput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void lstItems_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,8 +31,8 @@ namespace C_Tool
         public List<Item> items = new List<Item>();
         public AddName AddNameForm = new AddName();
         public string[] file;
-
-
+        private int selectedIndex;
+        public double StartUVX, StartUVY, EndUVX, EndUVY;
 
         bool scaleHeight, scaleWidith = true;
 
@@ -96,6 +97,17 @@ namespace C_Tool
 
         }
 
+        public void CleanUpUVS()
+        {
+            if((double)EndUVX > 1)
+            {
+                EndUVX = 1;
+            }
+            if ((double)EndUVY > 1)
+            {
+                EndUVY = 1;
+            }
+        }
 
         public void CheckDraggingRec()
         {
@@ -164,40 +176,40 @@ namespace C_Tool
 
 
 
-            //using (OpenFileDialog dlg = new OpenFileDialog())
-            //{
-                
-            //        dlg.Title = "Open UV";
-            //        dlg.Filter = "Text files (.txt)| *.txt";
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+
+                dlg.Title = "Open UV";
+                dlg.Filter = "Text files (.txt)| *.txt";
 
 
-            //        if (dlg.ShowDialog() == DialogResult.OK)
-            //        {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
 
-            //            AddNameForm.Show();
-            //            AddNameForm.theFileName = dlg.FileName;
-            //            AddNameForm.parent = this;
+                    AddNameForm.Show();
+                    AddNameForm.theFileName = dlg.FileName;
+                    AddNameForm.parent = this;
 
-            //            AddNameForm.file = File.ReadAllLines(dlg.FileName);
-            //            foreach (var item in AddNameForm.file)
-            //            {
+                    AddNameForm.file = File.ReadAllLines(dlg.FileName);
+                    foreach (var item in AddNameForm.file)
+                    {
 
-            //                // This splits the values up and stores them in the temporary item.
-            //                string[] values = item.Split();
-            //                tempItem.startPoint = (new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
-            //                tempItem.endPoints = (new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
-            //                tempItem.startUVpoint = (new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
-            //                tempItem.endUVpoint = (new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
+                        // This splits the values up and stores them in the temporary item.
+                        string[] values = item.Split();
+                        tempItem.startPoint = (new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])));
+                        tempItem.endPoints = (new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
+                        tempItem.startUVpoint = (new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
+                        tempItem.endUVpoint = (new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
 
-            //                AddNameForm.ofItemsToChange.Add(tempItem);
-            //                tempItem = new Item();
-            //            }
+                        AddNameForm.ofItemsToChange.Add(tempItem);
+                        tempItem = new Item();
+                    }
 
-            //        }
-            //    }
+                }
+            }
 
 
-            
+
 
 
 
@@ -210,6 +222,17 @@ namespace C_Tool
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            selectedIndex = lstItems.SelectedIndex;
+            if (selectedIndex != -1)
+            {
+                //e.Graphics.Clear(pictureBox1.BackColor);
+                e.Graphics.DrawRectangle(Pens.Red, new Rectangle(items.ElementAt(selectedIndex).startPoint.X,
+                                    items.ElementAt(selectedIndex).startPoint.Y,
+                                    items.ElementAt(selectedIndex).endPoints.X - items.ElementAt(selectedIndex).startPoint.X,
+                                    items.ElementAt(selectedIndex).endPoints.Y - items.ElementAt(selectedIndex).startPoint.Y
+                                    ));
+            }
+            else
             {
                 e.Graphics.DrawRectangle(Pens.LightGreen, rec);
             }
@@ -297,6 +320,84 @@ namespace C_Tool
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             LoadNewPict();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            LoadUVCoords();
+        }
+
+        private void lstItems_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (lstItems.SelectedIndex == -1)
+            {
+
+                btnDeleteItem.Visible = false;
+            }
+            else
+            {
+                btnDeleteItem.Visible = true;
+
+
+
+               lblStartPText.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.ToString() + Environment.NewLine;
+               lblEndPText.Text = items.ElementAt(lstItems.SelectedIndex).endPoints.ToString() + Environment.NewLine;
+
+                selectedIndex = lstItems.SelectedIndex;
+                pictureBox1.Invalidate();
+
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (txtRecName != null)
+            {
+                lstItems.Items.Add(txtRecName.Text);
+                items.Add(tempItem);
+                tempItem = new Item();
+            }
+            lblEndPText.Text = " ";
+            lblStartPText.Text = " ";
+            lblStartUvText.Text = " ";
+            lblEndPText.Text = " ";
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
+            {
+                Point endPoint = new Point();
+
+                endPoint.X = rec.Location.X + rec.Width;
+                endPoint.Y = rec.Location.Y + rec.Height;
+
+                StartUVX = ((double)rec.Location.X  / (double)pictureBox1.Width);
+                StartUVY = ((double)rec.Location.Y / (double)pictureBox1.Height);
+                EndUVX = ((double)endPoint.X / (double)pictureBox1.Width);
+                EndUVY = ((double)endPoint.Y / (double)pictureBox1.Height);
+
+
+                //EndUVX = ((double)e.X / (double)pictureBox1.Width);
+                //EndUVY = ((double)e.Y / (double)pictureBox1.Height);
+                //EndUVX = ((double)rec.Location.X + (double)rec.Width / (double)pictureBox1.Width);
+                //EndUVY = ((double)rec.Location.Y + (double)rec.Height / (double)pictureBox1.Height);
+
+                CleanUpUVS();
+
+                lblStartPText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+                lblEndPText.Text = endPoint.X.ToString() + " " + endPoint.Y.ToString();
+                lblStartUvText.Text = StartUVX.ToString("n2") + " " + StartUVY.ToString("n2");
+                lblEndUvText.Text = EndUVX.ToString("n2") + " " + EndUVY.ToString("n2");
+
+
+                tempItem.startPoint = rPic1;
+                tempItem.endPoints = e.Location;
+                tempItem.startUVpoint.x = StartUVX;
+                tempItem.startUVpoint.y = StartUVY;
+                tempItem.endUVpoint.x = EndUVX;
+                tempItem.endUVpoint.y = EndUVY;
+            }
         }
 
         private void tmrClock_Tick(object sender, EventArgs e)
