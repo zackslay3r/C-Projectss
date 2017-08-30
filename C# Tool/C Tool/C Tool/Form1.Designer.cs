@@ -58,6 +58,10 @@
             this.btnTestAni = new System.Windows.Forms.Button();
             this.chkTestAni = new System.Windows.Forms.CheckBox();
             this.tmrAniTimer = new System.Windows.Forms.Timer(this.components);
+            this.txtStartText = new System.Windows.Forms.TextBox();
+            this.txtEndText = new System.Windows.Forms.TextBox();
+            this.txtStartUV = new System.Windows.Forms.TextBox();
+            this.txtEndUV = new System.Windows.Forms.TextBox();
             this.tlstrpMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -163,17 +167,18 @@
             // 
             this.lblStartPText.AutoSize = true;
             this.lblStartPText.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblStartPText.Location = new System.Drawing.Point(961, 405);
+            this.lblStartPText.Location = new System.Drawing.Point(802, 618);
             this.lblStartPText.Name = "lblStartPText";
             this.lblStartPText.Size = new System.Drawing.Size(10, 13);
             this.lblStartPText.TabIndex = 7;
             this.lblStartPText.Text = " ";
+            this.lblStartPText.Click += new System.EventHandler(this.lblStartPText_Click);
             // 
             // lblEndPText
             // 
             this.lblEndPText.AutoSize = true;
             this.lblEndPText.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblEndPText.Location = new System.Drawing.Point(961, 447);
+            this.lblEndPText.Location = new System.Drawing.Point(802, 660);
             this.lblEndPText.Name = "lblEndPText";
             this.lblEndPText.Size = new System.Drawing.Size(10, 13);
             this.lblEndPText.TabIndex = 8;
@@ -183,7 +188,7 @@
             // 
             this.lblStartUvText.AutoSize = true;
             this.lblStartUvText.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblStartUvText.Location = new System.Drawing.Point(961, 488);
+            this.lblStartUvText.Location = new System.Drawing.Point(802, 701);
             this.lblStartUvText.Name = "lblStartUvText";
             this.lblStartUvText.Size = new System.Drawing.Size(10, 13);
             this.lblStartUvText.TabIndex = 9;
@@ -193,7 +198,7 @@
             // 
             this.lblEndUvText.AutoSize = true;
             this.lblEndUvText.BackColor = System.Drawing.SystemColors.Highlight;
-            this.lblEndUvText.Location = new System.Drawing.Point(961, 529);
+            this.lblEndUvText.Location = new System.Drawing.Point(802, 742);
             this.lblEndUvText.Name = "lblEndUvText";
             this.lblEndUvText.Size = new System.Drawing.Size(10, 13);
             this.lblEndUvText.TabIndex = 10;
@@ -332,11 +337,44 @@
             this.tmrAniTimer.Interval = 1000;
             this.tmrAniTimer.Tick += new System.EventHandler(this.tmrAniTimer_Tick);
             // 
+            // txtStartText
+            // 
+            this.txtStartText.Location = new System.Drawing.Point(946, 405);
+            this.txtStartText.Name = "txtStartText";
+            this.txtStartText.Size = new System.Drawing.Size(100, 20);
+            this.txtStartText.TabIndex = 23;
+            this.txtStartText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtStartText_KeyPress);
+            // 
+            // txtEndText
+            // 
+            this.txtEndText.Location = new System.Drawing.Point(946, 442);
+            this.txtEndText.Name = "txtEndText";
+            this.txtEndText.Size = new System.Drawing.Size(100, 20);
+            this.txtEndText.TabIndex = 24;
+            // 
+            // txtStartUV
+            // 
+            this.txtStartUV.Location = new System.Drawing.Point(946, 479);
+            this.txtStartUV.Name = "txtStartUV";
+            this.txtStartUV.Size = new System.Drawing.Size(100, 20);
+            this.txtStartUV.TabIndex = 25;
+            // 
+            // txtEndUV
+            // 
+            this.txtEndUV.Location = new System.Drawing.Point(946, 521);
+            this.txtEndUV.Name = "txtEndUV";
+            this.txtEndUV.Size = new System.Drawing.Size(100, 20);
+            this.txtEndUV.TabIndex = 26;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1058, 772);
+            this.Controls.Add(this.txtEndUV);
+            this.Controls.Add(this.txtStartUV);
+            this.Controls.Add(this.txtEndText);
+            this.Controls.Add(this.txtStartText);
             this.Controls.Add(this.chkTestAni);
             this.Controls.Add(this.btnTestAni);
             this.Controls.Add(this.panel2);
@@ -404,6 +442,10 @@
         private System.Windows.Forms.Button btnTestAni;
         private System.Windows.Forms.CheckBox chkTestAni;
         private System.Windows.Forms.Timer tmrAniTimer;
+        private System.Windows.Forms.TextBox txtStartText;
+        private System.Windows.Forms.TextBox txtEndText;
+        private System.Windows.Forms.TextBox txtStartUV;
+        private System.Windows.Forms.TextBox txtEndUV;
     }
 }
 

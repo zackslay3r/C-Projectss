@@ -26,6 +26,7 @@ namespace C_Tool
         Rectangle rec;
         private Point rPic1 = new Point(-1, 1);
         Point finalRecPos = new Point();
+        Point endPoint;
         MainFormManager mfrmmanager = new MainFormManager();
         public Item tempItem = new Item();
         public List<Item> items = new List<Item>();
@@ -188,6 +189,26 @@ namespace C_Tool
             {
                 scaleHeight = true;
             }
+
+        }
+
+        public void calUVS()
+        {
+            // creates a temporary endpoint.
+            endPoint = new Point();
+
+            // this is set to the start point + width if its x or height id its y
+            endPoint.X = rec.Location.X + rec.Width;
+            endPoint.Y = rec.Location.Y + rec.Height;
+
+
+
+            StartUVX = ((double)rec.Location.X / (double)pictureBox1.Width);
+            StartUVY = ((double)rec.Location.Y / (double)pictureBox1.Height);
+            EndUVX = ((double)endPoint.X / (double)pictureBox1.Width);
+            EndUVY = ((double)endPoint.Y / (double)pictureBox1.Height);
+
+            CleanUpUVS();
 
         }
 
@@ -389,11 +410,16 @@ namespace C_Tool
 
                 CheckBounds(e.Location);
 
-                lblStartPText.Text = rPic1.X.ToString() + " " + rPic1.Y.ToString();
-                lblEndPText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+                //lblStartPText.Text = rPic1.X.ToString() + " " + rPic1.Y.ToString();
+                //lblEndPText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+
+                txtStartText.Text = rPic1.X.ToString() + " " + rPic1.Y.ToString();
+                txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+                calUVS();
+                txtStartUV.Text = StartUVX.ToString("n2") + " " + StartUVY.ToString("n2");
+                txtEndUV.Text = EndUVX.ToString("n2") + " " + EndUVY.ToString("n2");
 
 
-                
                 this.Invalidate();
             }
 
@@ -430,6 +456,10 @@ namespace C_Tool
             {
                 lstItems.Items.RemoveAt(selectedIndex);
                 items.RemoveAt(selectedIndex);
+                txtStartText.Text = " ";
+                txtEndText.Text = " ";
+                txtStartText.Text = " ";
+                txtEndUV.Text = " ";
             }
         }
 
@@ -479,10 +509,15 @@ namespace C_Tool
 
         private void btnClearArea_Click(object sender, EventArgs e)
         {
-            lblEndPText.Text = " ";
-            lblStartPText.Text = " ";
-            lblStartUvText.Text = " ";
-            lblEndUvText.Text = " ";
+            //lblEndPText.Text = " ";
+            //lblStartPText.Text = " ";
+            //lblStartUvText.Text = " ";
+            //lblEndUvText.Text = " ";
+            txtStartText.Text = " ";
+            txtEndText.Text = " ";
+            txtStartText.Text = " ";
+            txtEndUV.Text = " ";
+            
             rec = new Rectangle();
         }
 
@@ -512,6 +547,16 @@ namespace C_Tool
             animation();
         }
 
+        private void lblStartPText_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtStartText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+         
+        }
+
         private void lstItems_MouseDown(object sender, MouseEventArgs e)
         {
             if (lstItems.SelectedIndex == -1)
@@ -525,17 +570,36 @@ namespace C_Tool
 
 
 
-                lblStartPText.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.X.ToString() + " ";
-                lblStartPText.Text += items.ElementAt(lstItems.SelectedIndex).startPoint.Y.ToString() + Environment.NewLine;
+                ////lblStartPText.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.X.ToString() + " ";
+                ////lblStartPText.Text += items.ElementAt(lstItems.SelectedIndex).startPoint.Y.ToString() + Environment.NewLine;
 
-                lblEndPText.Text = items.ElementAt(lstItems.SelectedIndex).endPoints.X.ToString() + " ";
-                lblEndPText.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.Y.ToString() + Environment.NewLine;
+                txtStartText.Text = items.ElementAt(lstItems.SelectedIndex).startPoint.X.ToString() + " ";
+                txtStartText.Text += items.ElementAt(lstItems.SelectedIndex).startPoint.Y.ToString();
 
-                lblStartUvText.Text = items.ElementAt(lstItems.SelectedIndex).startUVpoint.x.ToString("n2") + " ";
-                lblStartUvText.Text += items.ElementAt(lstItems.SelectedIndex).startUVpoint.y.ToString("n2") + Environment.NewLine;
 
-                lblEndUvText.Text = items.ElementAt(lstItems.SelectedIndex).endUVpoint.x.ToString("n2") + " ";
-                lblEndUvText.Text += items.ElementAt(lstItems.SelectedIndex).endUVpoint.y.ToString("n2") + Environment.NewLine;
+                ////lblEndPText.Text = items.ElementAt(lstItems.SelectedIndex).endPoints.X.ToString() + " ";
+                ////lblEndPText.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.Y.ToString() + Environment.NewLine;
+
+                txtEndText.Text = items.ElementAt(lstItems.SelectedIndex).endPoints.X.ToString() + " ";
+                txtEndText.Text += items.ElementAt(lstItems.SelectedIndex).endPoints.Y.ToString();
+
+
+                ////lblStartUvText.Text = items.ElementAt(lstItems.SelectedIndex).startUVpoint.x.ToString("n2") + " ";
+                ////lblStartUvText.Text += items.ElementAt(lstItems.SelectedIndex).startUVpoint.y.ToString("n2") + Environment.NewLine;
+
+                txtStartUV.Text = items.ElementAt(lstItems.SelectedIndex).startUVpoint.x.ToString("n2") + " ";
+                txtStartUV.Text += items.ElementAt(lstItems.SelectedIndex).startUVpoint.y.ToString("n2");
+
+                ////lblEndUvText.Text = items.ElementAt(lstItems.SelectedIndex).endUVpoint.x.ToString("n2") + " ";
+                ////lblEndUvText.Text += items.ElementAt(lstItems.SelectedIndex).endUVpoint.y.ToString("n2") + Environment.NewLine;
+
+                txtEndUV.Text = items.ElementAt(lstItems.SelectedIndex).endUVpoint.x.ToString("n2") + " ";
+                txtEndUV.Text += items.ElementAt(lstItems.SelectedIndex).endUVpoint.y.ToString("n2");
+
+                //txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+                //txtEndText.Text = endPoint.X.ToString() + " " + endPoint.Y.ToString();
+                //txtStartUV.Text = StartUVX.ToString("n2") + " " + StartUVY.ToString("n2");
+                //txtEndUV.Text = EndUVX.ToString("n2") + " " + EndUVY.ToString("n2");
 
 
                 selectedIndex = lstItems.SelectedIndex;
@@ -570,17 +634,17 @@ namespace C_Tool
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
             {
                 cleanStart();
-                Point endPoint = new Point();
+                //Point endPoint = new Point();
 
 
-                endPoint.X = rec.Location.X + rec.Width;
-                endPoint.Y = rec.Location.Y + rec.Height;
+                //endPoint.X = rec.Location.X + rec.Width;
+                //endPoint.Y = rec.Location.Y + rec.Height;
 
-                StartUVX = ((double)rec.Location.X  / (double)pictureBox1.Width);
-                StartUVY = ((double)rec.Location.Y / (double)pictureBox1.Height);
-                EndUVX = ((double)endPoint.X / (double)pictureBox1.Width);
-                EndUVY = ((double)endPoint.Y / (double)pictureBox1.Height);
-
+                //StartUVX = ((double)rec.Location.X  / (double)pictureBox1.Width);
+                //StartUVY = ((double)rec.Location.Y / (double)pictureBox1.Height);
+                //EndUVX = ((double)endPoint.X / (double)pictureBox1.Width);
+                //EndUVY = ((double)endPoint.Y / (double)pictureBox1.Height);
+                calUVS();
                 
 
                 //EndUVX = ((double)e.X / (double)pictureBox1.Width);
@@ -590,10 +654,15 @@ namespace C_Tool
 
                 CleanUpUVS();
 
-                lblStartPText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
-                lblEndPText.Text = endPoint.X.ToString() + " " + endPoint.Y.ToString();
-                lblStartUvText.Text = StartUVX.ToString("n2") + " " + StartUVY.ToString("n2");
-                lblEndUvText.Text = EndUVX.ToString("n2") + " " + EndUVY.ToString("n2");
+                //lblStartPText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+                //lblEndPText.Text = endPoint.X.ToString() + " " + endPoint.Y.ToString();
+                //lblStartUvText.Text = StartUVX.ToString("n2") + " " + StartUVY.ToString("n2");
+                //lblEndUvText.Text = EndUVX.ToString("n2") + " " + EndUVY.ToString("n2");
+
+                txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+                txtEndText.Text = endPoint.X.ToString() + " " + endPoint.Y.ToString();
+                txtStartUV.Text = StartUVX.ToString("n2") + " " + StartUVY.ToString("n2");
+                txtEndUV.Text = EndUVX.ToString("n2") + " " + EndUVY.ToString("n2");
 
 
                 tempItem.startPoint = rec.Location;
