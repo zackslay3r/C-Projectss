@@ -216,6 +216,23 @@ namespace C_Tool
             }
         }
 
+        int i = 0;
+        public void animation()
+        {
+            
+            if (chkTestAni.Checked == true)
+            {
+                setImage(items.ElementAt(i).rectangle);
+                pictureBox2.Refresh();
+              
+                i++;
+                if (i == items.Count)
+                {
+                    i = 0;
+                }
+                
+            }
+        }
 
 
         public void LoadUVCoords()
@@ -474,6 +491,27 @@ namespace C_Tool
 
         }
 
+        private void btnTestAni_Click(object sender, EventArgs e)
+        {
+            
+        
+        }
+
+        private void chkTestAni_CheckedChanged(object sender, EventArgs e)
+        {
+            bool doAni = chkTestAni.Checked;
+            if (doAni == false)
+            {
+                i = 0;
+             
+            }
+        }
+
+        private void tmrAniTimer_Tick(object sender, EventArgs e)
+        {
+            animation();
+        }
+
         private void lstItems_MouseDown(object sender, MouseEventArgs e)
         {
             if (lstItems.SelectedIndex == -1)
@@ -583,6 +621,7 @@ namespace C_Tool
         {
             pictureBox1.Refresh();
             pictureBox2.Refresh();
+            
         }
     }
 }

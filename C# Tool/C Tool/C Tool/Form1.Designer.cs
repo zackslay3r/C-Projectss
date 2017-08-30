@@ -55,6 +55,9 @@
             this.tmrClock = new System.Windows.Forms.Timer(this.components);
             this.pnlMainImage = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnTestAni = new System.Windows.Forms.Button();
+            this.chkTestAni = new System.Windows.Forms.CheckBox();
+            this.tmrAniTimer = new System.Windows.Forms.Timer(this.components);
             this.tlstrpMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -253,11 +256,11 @@
             // lblRecName
             // 
             this.lblRecName.AutoSize = true;
-            this.lblRecName.Location = new System.Drawing.Point(360, 625);
+            this.lblRecName.Location = new System.Drawing.Point(354, 621);
             this.lblRecName.Name = "lblRecName";
-            this.lblRecName.Size = new System.Drawing.Size(35, 13);
+            this.lblRecName.Size = new System.Drawing.Size(58, 13);
             this.lblRecName.TabIndex = 16;
-            this.lblRecName.Text = "label1";
+            this.lblRecName.Text = "Item Name";
             // 
             // label2
             // 
@@ -301,11 +304,41 @@
             this.panel2.Size = new System.Drawing.Size(164, 139);
             this.panel2.TabIndex = 20;
             // 
+            // btnTestAni
+            // 
+            this.btnTestAni.Location = new System.Drawing.Point(870, 27);
+            this.btnTestAni.Name = "btnTestAni";
+            this.btnTestAni.Size = new System.Drawing.Size(164, 23);
+            this.btnTestAni.TabIndex = 21;
+            this.btnTestAni.Text = "Test Ani?";
+            this.btnTestAni.UseVisualStyleBackColor = true;
+            this.btnTestAni.Click += new System.EventHandler(this.btnTestAni_Click);
+            // 
+            // chkTestAni
+            // 
+            this.chkTestAni.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkTestAni.AutoSize = true;
+            this.chkTestAni.Location = new System.Drawing.Point(918, 81);
+            this.chkTestAni.Name = "chkTestAni";
+            this.chkTestAni.Size = new System.Drawing.Size(53, 23);
+            this.chkTestAni.TabIndex = 22;
+            this.chkTestAni.Text = "TestAni";
+            this.chkTestAni.UseVisualStyleBackColor = true;
+            this.chkTestAni.CheckedChanged += new System.EventHandler(this.chkTestAni_CheckedChanged);
+            // 
+            // tmrAniTimer
+            // 
+            this.tmrAniTimer.Enabled = true;
+            this.tmrAniTimer.Interval = 1000;
+            this.tmrAniTimer.Tick += new System.EventHandler(this.tmrAniTimer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1058, 772);
+            this.Controls.Add(this.chkTestAni);
+            this.Controls.Add(this.btnTestAni);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.pnlMainImage);
             this.Controls.Add(this.btnClearArea);
@@ -368,6 +401,9 @@
         public System.Windows.Forms.ListBox lstItems;
         private System.Windows.Forms.Panel pnlMainImage;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnTestAni;
+        private System.Windows.Forms.CheckBox chkTestAni;
+        private System.Windows.Forms.Timer tmrAniTimer;
     }
 }
 
