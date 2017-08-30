@@ -593,74 +593,135 @@ namespace C_Tool
             {
                 try
                 {
-
-
                     string[] values = txtStartText.Text.Split();
-
-                    if (Convert.ToInt32(values[0]) > pictureBox1.Width - rec.Width)
+                   if (Convert.ToInt32(values[0]) < 0 || Convert.ToInt32(values[1]) < 0)
+                        {
+                            throw new widthException("x or y value less than the picturebox.");
+                        }
+                    if ((Convert.ToInt32(values[0]) + rec.Width) >= pictureBox1.Width || (Convert.ToInt32(values[1]) + rec.Height) >= pictureBox1.Height)
                     {
-                        throw new widthException("The x coordinate you inputted is greater than the imagebox.Try a value that's lower.");
+                        throw new widthException("out of bounds.");
                     }
-                    if (Convert.ToInt32(values[0]) < 0)
+                    if (Convert.ToInt32(values[0]) < rec.Location.X && Convert.ToInt32(values[1]) < rec.Location.Y)
                     {
-                        throw new widthException("The x coordinate you inputted is less than the imagebox.Try a value that's higher.");
+                        
+                        
+                            rec.Location = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
+                            txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
+                            txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+                        
                     }
-                    if (Convert.ToInt32(values[1]) > pictureBox1.Height - rec.Height)
+                    else if (Convert.ToInt32(values[0]) > rec.Location.X && Convert.ToInt32(values[1]) > rec.Location.Y)
                     {
-                        throw new heightException("The y coordinate you inputted is greater than the imagebox.Try a value that's lower.");
+                        //if ((rec.Location.X + rec.Width) >= pictureBox1.Width || (rec.Location.Y + rec.Height) >= pictureBox1.Height)
+                        //{
+                        //    throw new widthException("out of bounds.");
+                        //}
+
+                        int tempWidth, tempHeight;
+
+                        tempWidth = Math.Abs(Convert.ToInt32(values[0]) - (rec.Width + rec.Location.X));
+                        tempHeight = Math.Abs(Convert.ToInt32(values[1]) - (rec.Height + rec.Location.Y));
+
+                        rec.Width = tempWidth;
+                        rec.Height = tempHeight;
+
+                        rec.Location = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
+
+                        //rec.Width = Convert.ToInt32(values[0]) - rec.Location.X;
+                        //rec.Height = Convert.ToInt32(values[1]) - rec.Location.Y;
+
+                        //rec.Width = rec.Location.X -
+
+                            rec.Location = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
+                            txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
+                            txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+                        
                     }
-                    if (Convert.ToInt32(values[1]) < 0)
+                    else if (Convert.ToInt32(values[0]) > (rec.Location.X + rec.Width) && Convert.ToInt32(values[1]) < (rec.Location.Y + rec.Height))
+                    { 
+                        throw new widthException("awkward. you are not making a rectangle.");
+                    }
+                    else if (Convert.ToInt32(values[0]) < (rec.Location.X + rec.Width) && Convert.ToInt32(values[1]) > (rec.Location.Y + rec.Height))
                     {
-                        throw new heightException("The y coordinate you inputted is less than the imagebox.Try a value that's higher.");
+                        throw new widthException("awkward. you are not making a rectangle.");
                     }
-                    Point tmpPnt = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
-                   
-                    int tempW = rec.Location.X - Convert.ToInt32(values[0]);
-                    int tempH = rec.Location.Y - Convert.ToInt32(values[1]);
-
-                    //tempW = rec.Width;
-                    //tempH = rec.Height;
-
-
-                    rec.Location = tmpPnt;
-
-                    if (tempW >= 0)
+                    else
                     {
-                        rec.Width += tempW;
+                        throw new widthException("awkward. i dont know what you are doing.");
                     }
-                    if (tempH >= 0)
-                    {
-                        rec.Height += tempH;
-                    }
+                    //        string[] values = txtStartText.Text.Split();
 
-                    txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
-                    tmpPnt = new Point();
+                    //        if (Convert.ToInt32(values[0]) > pictureBox1.Width - rec.Width)
+                    //        {
+                    //            throw new widthException("The x coordinate you inputted is greater than the imagebox.Try a value that's lower.");
+                    //        }
+                    //        if (Convert.ToInt32(values[0]) < 0)
+                    //        {
+                    //            throw new widthException("The x coordinate you inputted is less than the imagebox.Try a value that's higher.");
+                    //        }
+                    //        if (Convert.ToInt32(values[1]) > pictureBox1.Height - rec.Height)
+                    //        {
+                    //            throw new heightException("The y coordinate you inputted is greater than the imagebox.Try a value that's lower.");
+                    //        }
+                    //        if (Convert.ToInt32(values[1]) < 0)
+                    //        {
+                    //            throw new heightException("The y coordinate you inputted is less than the imagebox.Try a value that's higher.");
+                    //        }
+                    //        Point tmpPnt = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
 
-                    //rec.Location = new Point(rec.Location.X + rec.Width, rec.Location.Y + rec.Height);
-                    //txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+                    //        int tempW = rec.Location.X - Convert.ToInt32(values[0]);
+                    //        int tempH = rec.Location.Y - Convert.ToInt32(values[1]);
+
+                    //        //tempW = rec.Width;
+                    //        //tempH = rec.Height;
+
+
+                    //        rec.Location = tmpPnt;
+
+                    //        if (tempW >= 0)
+                    //        {
+                    //            rec.Width += tempW;
+                    //        }
+                    //        if (tempH >= 0)
+                    //        {
+                    //            rec.Height += tempH;
+                    //        }
+
+                    //        txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+                    //        tmpPnt = new Point();
+
+                    //        //rec.Location = new Point(rec.Location.X + rec.Width, rec.Location.Y + rec.Height);
+                    //        //txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+                    //    }
+
+
+                    //    catch (widthException ex)
+                    //    {
+                    //        MessageBox.Show(ex.Message);
+                    //        txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+                    //    }
+                    //    catch (heightException ex)
+                    //    {
+                    //        MessageBox.Show(ex.Message);
+                    //        txtEndText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+                    //    }
+
+                    //    catch
+                    //    {
+
+
+                    //        MessageBox.Show("Please input valid data for the start box. (Int Int)");
+                    //        txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+                    //    }
+                    //}
                 }
-
-
                 catch (widthException ex)
                 {
                     MessageBox.Show(ex.Message);
-                    txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
-                }
-                catch (heightException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    txtEndText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
-                }
-
-                catch
-                {
-
-
-                    MessageBox.Show("Please input valid data for the start box. (Int Int)");
-                    txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+                    txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
                 }
             }
-
         }
 
         private void txtEndText_KeyDown(object sender, KeyEventArgs e)
@@ -670,7 +731,58 @@ namespace C_Tool
                 try
                 {
                     string[] values = txtEndText.Text.Split();
-                    
+
+                    if (Convert.ToInt32(values[0]) < rec.Location.X && Convert.ToInt32(values[1]) < rec.Location.Y)
+                    {
+                        if (Convert.ToInt32(values[0]) < 0 || Convert.ToInt32(values[1]) < 0)
+                        {
+                            throw new widthException("Either the X or Y is less than the picturebox.");
+                        }
+
+
+                        int tempInt;
+                        tempInt = rec.Location.X;
+                        rec.Location = new Point(Convert.ToInt32(values[0]), rec.Location.Y);
+                        rec.Width = tempInt - Convert.ToInt32(values[0]);
+                        tempInt = 0;
+                        tempInt = rec.Location.Y;
+                        rec.Location = new Point(rec.Location.X, Convert.ToInt32(values[1]));
+                        rec.Height = tempInt - Convert.ToInt32(values[1]);
+                        txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
+                        txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+
+
+                    }
+                    else if (Convert.ToInt32(values[0]) > rec.Location.X && Convert.ToInt32(values[1]) > rec.Location.Y)
+                    {
+                        if (Convert.ToInt32(values[0]) >= pictureBox1.Width || Convert.ToInt32(values[1]) >= pictureBox1.Height)
+                        {
+                            throw new widthException("Either the X or Y is more than the picturebox.");
+                        }
+
+                        int tempWidith, tempHeight;
+
+                        tempWidith = Convert.ToInt32(values[0]) - rec.Location.X;
+                        tempHeight = Convert.ToInt32(values[1]) - rec.Location.Y;
+                        rec.Width = tempWidith;
+                        rec.Height = tempHeight;
+                    }
+                    else if(Convert.ToInt32(values[0]) > rec.Location.X && Convert.ToInt32(values[1]) < rec.Location.Y)
+                    {
+             
+
+                        throw new widthException("awkward. you are not making a rectangle.");
+                    }
+                    else if (Convert.ToInt32(values[0]) < rec.Location.X && Convert.ToInt32(values[1]) > rec.Location.Y)
+                    {
+                        throw new widthException("awkward. you are not making a rectangle.");
+                    }
+                    else
+                    {
+                        throw new widthException("awkward. i dont know what you are doing.");
+                    }
+
+
                     //if(Convert.ToInt32(values[0]) < rec.Location.X && Convert.ToInt32(values[0]) )
                     //{
 
@@ -680,9 +792,9 @@ namespace C_Tool
                     //    rec.Width = Math.Abs(tempInt - rec.Location.X);
 
                     //}
-                    
 
-                    
+
+
 
                     //if(Convert.ToInt32(values[0]) < rec.Location.X)
                     //{
@@ -693,22 +805,22 @@ namespace C_Tool
                     //    throw new widthException("The endpoint along the y coordinate is less than the startpoint y. pick an y coord thats higher.");
                     //}
 
-                    if (Convert.ToInt32(values[0]) > pictureBox1.Width - rec.Width)
-                    {
-                        throw new widthException("The x coordinate you inputted is greater than the imagebox.Try a value that's lower.");
-                    }
-                    if (Convert.ToInt32(values[0]) < 0)
-                    {
-                        throw new widthException("The x coordinate you inputted is less than the imagebox.Try a value that's higher.");
-                    }
-                    if (Convert.ToInt32(values[1]) > pictureBox1.Height - rec.Height)
-                    {
-                        throw new heightException("The y coordinate you inputted is greater than the imagebox.Try a value that's lower.");
-                    }
-                    if (Convert.ToInt32(values[1]) < 0)
-                    {
-                        throw new heightException("The y coordinate you inputted is less than the imagebox.Try a value that's higher.");
-                    }
+                    //if (Convert.ToInt32(values[0]) > pictureBox1.Width - rec.Width)
+                    //{
+                    //    throw new widthException("The x coordinate you inputted is greater than the imagebox.Try a value that's lower.");
+                    //}
+                    //if (Convert.ToInt32(values[0]) < 0)
+                    //{
+                    //    throw new widthException("The x coordinate you inputted is less than the imagebox.Try a value that's higher.");
+                    //}
+                    //if (Convert.ToInt32(values[1]) > pictureBox1.Height - rec.Height)
+                    //{
+                    //    throw new heightException("The y coordinate you inputted is greater than the imagebox.Try a value that's lower.");
+                    //}
+                    //if (Convert.ToInt32(values[1]) < 0)
+                    //{
+                    //    throw new heightException("The y coordinate you inputted is less than the imagebox.Try a value that's higher.");
+                    //}
 
 
                     //rec.Width = Math.Abs(Convert.ToInt32(values[0]) - rPic1.X);
@@ -717,60 +829,60 @@ namespace C_Tool
                     //rec.Height = Math.Abs(rec.Location.Y - Convert.ToInt32(values[1]));
 
                     // int tempvar = Convert.ToInt32(values[0]) - rec.Location.X;
-                    int tempW, tempH;
+                    //int tempW, tempH;
 
 
-                    tempW = Convert.ToInt32(values[0])- rec.Location.X - rec.Width;
-                    tempH = Convert.ToInt32(values[1])- rec.Location.Y - rec.Height;
-                    
-                        rec.Width += tempW;
-                    
+                    //tempW = Convert.ToInt32(values[0])- rec.Location.X - rec.Width;
+                    //tempH = Convert.ToInt32(values[1])- rec.Location.Y - rec.Height;
+
+                    ////    rec.Width += tempW;
+
+                    //////else
+                    //////{
+                    //// //   rec.Width -= tempW;
+                    //////}
+
+                    ////    rec.Height += tempH;
+
                     //else
                     //{
-                     //   rec.Width -= tempW;
+                    //  rec.Height -= tempH;
                     //}
-                    
-                        rec.Height += tempH;
-                    
-                    //else
-                    //{
-                      //  rec.Height -= tempH;
-                    //}
-                    Point tempPt;
+                    //Point tempPt;
 
-                    
-                    tempPt = new Point(rec.Location.X - rec.Width, rec.Location.Y - rec.Height);
-                    if (Convert.ToInt32(values[0]) < rec.Location.X || Convert.ToInt32(values[1]) < rec.Location.Y)
-                    {
-                        if (tempPt.X > pictureBox1.Width)
-                        {
-                            throw new widthException("this would cause the rectangle to be drawn outside along the width. fail.");
-                        }
-                        else if (tempPt.Y > pictureBox1.Height)
-                        {
-                            throw new heightException("this would cause the rectangle to be drawn outside along the height. fail.");
-                        }
-                        else if (tempPt.X < 0)
-                        {
-                            throw new widthException("this would cause the rectangle to be drawn outside along the width. fail.");
-                        }
-                        else if (tempPt.Y < 0)
-                        {
-                            throw new widthException("this would cause the rectangle to be drawn outside along the height. fail.");
-                        }
-                        else
-                        {
-                            rec.Location = new Point(rec.Location.X - rec.Width, rec.Location.Y - rec.Height);
-                            txtStartText.Text = (rec.Location.X - rec.Width).ToString() + " " + (rec.Location.Y - rec.Height).ToString();
-                        }
-                    }
+
+                    //tempPt = new Point(rec.Location.X - rec.Width, rec.Location.Y - rec.Height);
+                    //if (Convert.ToInt32(values[0]) < rec.Location.X || Convert.ToInt32(values[1]) < rec.Location.Y)
+                    //{
+                    //    if (tempPt.X > pictureBox1.Width)
+                    //    {
+                    //        throw new widthException("this would cause the rectangle to be drawn outside along the width. fail.");
+                    //    }
+                    //    else if (tempPt.Y > pictureBox1.Height)
+                    //    {
+                    //        throw new heightException("this would cause the rectangle to be drawn outside along the height. fail.");
+                    //    }
+                    //    else if (tempPt.X < 0)
+                    //    {
+                    //        throw new widthException("this would cause the rectangle to be drawn outside along the width. fail.");
+                    //    }
+                    //    else if (tempPt.Y < 0)
+                    //    {
+                    //        throw new widthException("this would cause the rectangle to be drawn outside along the height. fail.");
+                    //    }
+                    //    else
+                    //    {
+                    //        rec.Location = new Point(rec.Location.X - rec.Width, rec.Location.Y - rec.Height);
+                    //        txtStartText.Text = (rec.Location.X - rec.Width).ToString() + " " + (rec.Location.Y - rec.Height).ToString();
+                    //    }
+                    //}
                 }
 
 
                 catch (widthException ex)
                 {
                     MessageBox.Show(ex.Message);
-                    txtEndText.Text = rec.Width.ToString() + " " + rec.Height.ToString();
+                    txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
                 }
 
                 catch
@@ -778,11 +890,11 @@ namespace C_Tool
 
 
                     MessageBox.Show("Please input valid data for the start box. (Int Int)");
-                    txtEndText.Text = rec.Width.ToString() + " " + rec.Height.ToString();
+                    txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+
                 }
             }
         }
-
         private void lstItems_MouseDown(object sender, MouseEventArgs e)
         {
             if (lstItems.SelectedIndex == -1)
