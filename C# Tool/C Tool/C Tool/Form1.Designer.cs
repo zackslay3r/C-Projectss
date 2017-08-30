@@ -343,6 +343,7 @@
             this.txtStartText.Name = "txtStartText";
             this.txtStartText.Size = new System.Drawing.Size(100, 20);
             this.txtStartText.TabIndex = 23;
+            this.txtStartText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtStartText_KeyDown);
             this.txtStartText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtStartText_KeyPress);
             // 
             // txtEndText
@@ -351,6 +352,7 @@
             this.txtEndText.Name = "txtEndText";
             this.txtEndText.Size = new System.Drawing.Size(100, 20);
             this.txtEndText.TabIndex = 24;
+            this.txtEndText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEndText_KeyDown);
             // 
             // txtStartUV
             // 
