@@ -53,10 +53,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnClearArea = new System.Windows.Forms.Button();
             this.tmrClock = new System.Windows.Forms.Timer(this.components);
+            this.pnlMainImage = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.tlstrpMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
+            this.pnlMainImage.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlstrpMenu
@@ -93,9 +97,10 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox1.Location = new System.Drawing.Point(180, 66);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 8);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(631, 514);
+            this.pictureBox1.Size = new System.Drawing.Size(687, 540);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
@@ -106,7 +111,7 @@
             // lblStartP
             // 
             this.lblStartP.AutoSize = true;
-            this.lblStartP.Location = new System.Drawing.Point(867, 542);
+            this.lblStartP.Location = new System.Drawing.Point(885, 405);
             this.lblStartP.Name = "lblStartP";
             this.lblStartP.Size = new System.Drawing.Size(56, 13);
             this.lblStartP.TabIndex = 2;
@@ -115,7 +120,7 @@
             // lblEndP
             // 
             this.lblEndP.AutoSize = true;
-            this.lblEndP.Location = new System.Drawing.Point(867, 584);
+            this.lblEndP.Location = new System.Drawing.Point(885, 447);
             this.lblEndP.Name = "lblEndP";
             this.lblEndP.Size = new System.Drawing.Size(53, 13);
             this.lblEndP.TabIndex = 3;
@@ -124,7 +129,7 @@
             // lblStartUV
             // 
             this.lblStartUV.AutoSize = true;
-            this.lblStartUV.Location = new System.Drawing.Point(867, 625);
+            this.lblStartUV.Location = new System.Drawing.Point(885, 488);
             this.lblStartUV.Name = "lblStartUV";
             this.lblStartUV.Size = new System.Drawing.Size(47, 13);
             this.lblStartUV.TabIndex = 4;
@@ -133,7 +138,7 @@
             // lblEndUV
             // 
             this.lblEndUV.AutoSize = true;
-            this.lblEndUV.Location = new System.Drawing.Point(867, 666);
+            this.lblEndUV.Location = new System.Drawing.Point(885, 529);
             this.lblEndUV.Name = "lblEndUV";
             this.lblEndUV.Size = new System.Drawing.Size(44, 13);
             this.lblEndUV.TabIndex = 5;
@@ -142,10 +147,10 @@
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox2.Location = new System.Drawing.Point(855, 91);
+            this.pictureBox2.Location = new System.Drawing.Point(0, 1);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(164, 139);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox2.TabIndex = 6;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
@@ -155,7 +160,7 @@
             // 
             this.lblStartPText.AutoSize = true;
             this.lblStartPText.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblStartPText.Location = new System.Drawing.Point(943, 542);
+            this.lblStartPText.Location = new System.Drawing.Point(961, 405);
             this.lblStartPText.Name = "lblStartPText";
             this.lblStartPText.Size = new System.Drawing.Size(10, 13);
             this.lblStartPText.TabIndex = 7;
@@ -165,7 +170,7 @@
             // 
             this.lblEndPText.AutoSize = true;
             this.lblEndPText.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblEndPText.Location = new System.Drawing.Point(943, 584);
+            this.lblEndPText.Location = new System.Drawing.Point(961, 447);
             this.lblEndPText.Name = "lblEndPText";
             this.lblEndPText.Size = new System.Drawing.Size(10, 13);
             this.lblEndPText.TabIndex = 8;
@@ -175,7 +180,7 @@
             // 
             this.lblStartUvText.AutoSize = true;
             this.lblStartUvText.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblStartUvText.Location = new System.Drawing.Point(943, 625);
+            this.lblStartUvText.Location = new System.Drawing.Point(961, 488);
             this.lblStartUvText.Name = "lblStartUvText";
             this.lblStartUvText.Size = new System.Drawing.Size(10, 13);
             this.lblStartUvText.TabIndex = 9;
@@ -185,7 +190,7 @@
             // 
             this.lblEndUvText.AutoSize = true;
             this.lblEndUvText.BackColor = System.Drawing.SystemColors.Highlight;
-            this.lblEndUvText.Location = new System.Drawing.Point(943, 666);
+            this.lblEndUvText.Location = new System.Drawing.Point(961, 529);
             this.lblEndUvText.Name = "lblEndUvText";
             this.lblEndUvText.Size = new System.Drawing.Size(10, 13);
             this.lblEndUvText.TabIndex = 10;
@@ -257,7 +262,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(908, 53);
+            this.label2.Location = new System.Drawing.Point(926, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 17;
@@ -265,7 +270,7 @@
             // 
             // btnClearArea
             // 
-            this.btnClearArea.Location = new System.Drawing.Point(870, 498);
+            this.btnClearArea.Location = new System.Drawing.Point(911, 315);
             this.btnClearArea.Name = "btnClearArea";
             this.btnClearArea.Size = new System.Drawing.Size(93, 23);
             this.btnClearArea.TabIndex = 18;
@@ -278,11 +283,31 @@
             this.tmrClock.Enabled = true;
             this.tmrClock.Tick += new System.EventHandler(this.tmrClock_Tick);
             // 
+            // pnlMainImage
+            // 
+            this.pnlMainImage.AutoScroll = true;
+            this.pnlMainImage.Controls.Add(this.pictureBox1);
+            this.pnlMainImage.Location = new System.Drawing.Point(162, 57);
+            this.pnlMainImage.Name = "pnlMainImage";
+            this.pnlMainImage.Size = new System.Drawing.Size(687, 540);
+            this.pnlMainImage.TabIndex = 19;
+            // 
+            // panel2
+            // 
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.pictureBox2);
+            this.panel2.Location = new System.Drawing.Point(870, 116);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(164, 139);
+            this.panel2.TabIndex = 20;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1058, 772);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pnlMainImage);
             this.Controls.Add(this.btnClearArea);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblRecName);
@@ -295,12 +320,10 @@
             this.Controls.Add(this.lblStartUvText);
             this.Controls.Add(this.lblEndPText);
             this.Controls.Add(this.lblStartPText);
-            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.lblEndUV);
             this.Controls.Add(this.lblStartUV);
             this.Controls.Add(this.lblEndP);
             this.Controls.Add(this.lblStartP);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.tlstrpMenu);
             this.Name = "Form1";
             this.Text = "Zack\'s Spritesheet Editior";
@@ -309,6 +332,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.pnlMainImage.ResumeLayout(false);
+            this.pnlMainImage.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -339,6 +366,8 @@
         private System.Windows.Forms.Button btnClearArea;
         private System.Windows.Forms.Timer tmrClock;
         public System.Windows.Forms.ListBox lstItems;
+        private System.Windows.Forms.Panel pnlMainImage;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

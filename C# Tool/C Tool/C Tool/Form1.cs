@@ -57,6 +57,34 @@ namespace C_Tool
             return true;
         }
 
+
+        // Copy the selected area to the clipboard.
+        private void setImage(Rectangle src_rect)
+        {
+            if (src_rect.Height != 0 && src_rect.Width != 0)
+            {
+                // Make a bitmap for the selected area's image.
+                Bitmap bm = new Bitmap(src_rect.Width, src_rect.Height);
+
+                // Copy the selected area into the bitmap.
+                using (Graphics gr = Graphics.FromImage(bm))
+                {
+                    if (pictureBox1.Image != null)
+                    {
+                        Rectangle dest_rect =
+                            new Rectangle(0, 0, src_rect.Width, src_rect.Height);
+                        gr.DrawImage(pictureBox1.Image, dest_rect, src_rect,
+                            GraphicsUnit.Pixel);
+                    }
+                }
+
+                // Copy the selection image to the clipboard.
+                //Clipboard.SetImage(bm);
+                pictureBox2.Image = bm;
+
+            }
+        }
+
         public void CheckBounds(Point mousePos)
         {
             if (rec.X < 0)
@@ -178,7 +206,7 @@ namespace C_Tool
 
                     // Create a new Bitmap object from the picture file on disk,
                     // and assign that to the PictureBox.Image property
-                    pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
 
                     pictureBox1.Image = Image.FromFile(dlg.FileName);
 
@@ -187,6 +215,7 @@ namespace C_Tool
                 }
             }
         }
+
 
 
         public void LoadUVCoords()
@@ -220,7 +249,7 @@ namespace C_Tool
                         tempItem.endPoints = (new Point(Convert.ToInt32(values[2]), Convert.ToInt32(values[3])));
                         tempItem.startUVpoint = (new PointD(Convert.ToDouble(values[4]), Convert.ToDouble(values[5])));
                         tempItem.endUVpoint = (new PointD(Convert.ToDouble(values[6]), Convert.ToDouble(values[7])));
-
+                        tempItem.rectangle = new Rectangle(tempItem.startPoint.X, tempItem.startPoint.Y, Math.Abs(tempItem.startPoint.X - tempItem.endPoints.X), Math.Abs(tempItem.startPoint.Y - tempItem.endPoints.Y));
                         AddNameForm.ofItemsToChange.Add(tempItem);
                         tempItem = new Item();
                     }
@@ -238,14 +267,23 @@ namespace C_Tool
 
         public static Bitmap CropImage(Image source, int x, int y, int width, int height)
         {
-            Rectangle crop = new Rectangle(x, y, width, height);
-
-            var bmp = new Bitmap(crop.Width, crop.Height);
-            using (var gr = Graphics.FromImage(bmp))
+            if (width != 0 && height != 0)
             {
-                gr.DrawImage(source, new Rectangle(0, 0, bmp.Width, bmp.Height), crop, GraphicsUnit.Pixel);
+
+                Rectangle crop = new Rectangle(x, y, width, height);
+                var bmp = new Bitmap(crop.Width, crop.Height);
+                using (var gr = Graphics.FromImage(bmp))
+                {
+                    gr.DrawImage(source, new Rectangle(0, 0, bmp.Width, bmp.Height), crop, GraphicsUnit.Pixel);
+                }
+                return bmp;
             }
-            return bmp;
+            else
+            {
+                var bmp = new Bitmap(1,1);
+                return bmp;
+            }
+              
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
@@ -292,6 +330,8 @@ namespace C_Tool
             {
                 MouseDownLocation = e.Location;
             }
+
+            
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -461,6 +501,8 @@ namespace C_Tool
 
 
                 selectedIndex = lstItems.SelectedIndex;
+
+                setImage(items.ElementAt(lstItems.SelectedIndex).rectangle);
                 //pictureBox2.Image = CropImage(pictureBox1.Image, rec.Location.X, rec.Location.Y, rec.Width, rec.Height);
                 pictureBox1.Invalidate();
                 pictureBox2.Invalidate();
@@ -473,7 +515,7 @@ namespace C_Tool
             if (txtRecName != null)
             {
                 lstItems.Items.Add(txtRecName.Text);
-                
+                tempItem.rectangle = rec;
                 items.Add(tempItem);
                 tempItem = new Item();
             }
@@ -481,6 +523,7 @@ namespace C_Tool
             lblStartPText.Text = " ";
             lblStartUvText.Text = " ";
             lblEndUvText.Text = " ";
+            
             rec = new Rectangle();
         }
 
@@ -522,7 +565,10 @@ namespace C_Tool
                 tempItem.endUVpoint.x = EndUVX;
                 tempItem.endUVpoint.y = EndUVY;
 
-                pictureBox2.Image = CropImage(pictureBox1.Image, rec.Location.X, rec.Location.Y, rec.Width, rec.Height);
+                //ConvertCoordinates(pictureBox1, rPic1.X, rPic1.Y, e.X, e.Y);
+
+                setImage(rec);
+                //pictureBox2.Image = CropImage(pictureBox1.Image, rec.Location.X, rec.Location.Y, rec.Width, rec.Height);
 
                 pictureBox2.Invalidate();
             }
