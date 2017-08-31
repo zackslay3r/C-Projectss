@@ -360,6 +360,7 @@
             this.txtStartUV.Name = "txtStartUV";
             this.txtStartUV.Size = new System.Drawing.Size(100, 20);
             this.txtStartUV.TabIndex = 25;
+            this.txtStartUV.TextChanged += new System.EventHandler(this.txtStartUV_TextChanged);
             // 
             // txtEndUV
             // 

@@ -594,22 +594,22 @@ namespace C_Tool
                 try
                 {
                     string[] values = txtStartText.Text.Split();
-                   if (Convert.ToInt32(values[0]) < 0 || Convert.ToInt32(values[1]) < 0)
-                        {
-                            throw new widthException("x or y value less than the picturebox.");
-                        }
+                    if (Convert.ToInt32(values[0]) < 0 || Convert.ToInt32(values[1]) < 0)
+                    {
+                        throw new widthException("x or y value less than the picturebox.");
+                    }
                     if ((Convert.ToInt32(values[0]) + rec.Width) >= pictureBox1.Width || (Convert.ToInt32(values[1]) + rec.Height) >= pictureBox1.Height)
                     {
                         throw new widthException("out of bounds.");
                     }
                     if (Convert.ToInt32(values[0]) < rec.Location.X && Convert.ToInt32(values[1]) < rec.Location.Y)
                     {
-                        
-                        
-                            rec.Location = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
-                            txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
-                            txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
-                        
+
+
+                        rec.Location = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
+                        txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
+                        txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+
                     }
                     else if (Convert.ToInt32(values[0]) > rec.Location.X && Convert.ToInt32(values[1]) > rec.Location.Y)
                     {
@@ -633,13 +633,13 @@ namespace C_Tool
 
                         //rec.Width = rec.Location.X -
 
-                            rec.Location = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
-                            txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
-                            txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
-                        
+                        rec.Location = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
+                        txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
+                        txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+
                     }
                     else if (Convert.ToInt32(values[0]) > (rec.Location.X + rec.Width) && Convert.ToInt32(values[1]) < (rec.Location.Y + rec.Height))
-                    { 
+                    {
                         throw new widthException("awkward. you are not making a rectangle.");
                     }
                     else if (Convert.ToInt32(values[0]) < (rec.Location.X + rec.Width) && Convert.ToInt32(values[1]) > (rec.Location.Y + rec.Height))
@@ -720,6 +720,10 @@ namespace C_Tool
                 {
                     MessageBox.Show(ex.Message);
                     txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
+                }
+                catch
+                {
+                    MessageBox.Show("failed Input.");
                 }
             }
         }
@@ -895,6 +899,26 @@ namespace C_Tool
                 }
             }
         }
+
+        private void txtStartUV_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string[] values = txtStartUV.Text.Split();
+
+                if (Convert.ToDouble(values[0]) < 0.00 || Convert.ToDouble(values[0]) < 0.00)
+                {
+                    throw new widthException("the UV inputted is less then the picturebox.");
+                }
+              
+
+            }
+            catch
+            {
+
+            }
+        }
+
         private void lstItems_MouseDown(object sender, MouseEventArgs e)
         {
             if (lstItems.SelectedIndex == -1)
