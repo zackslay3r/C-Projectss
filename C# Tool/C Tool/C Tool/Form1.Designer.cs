@@ -361,6 +361,7 @@
             this.txtStartUV.Size = new System.Drawing.Size(100, 20);
             this.txtStartUV.TabIndex = 25;
             this.txtStartUV.TextChanged += new System.EventHandler(this.txtStartUV_TextChanged);
+            this.txtStartUV.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtStartUV_KeyDown);
             // 
             // txtEndUV
             // 
@@ -368,6 +369,7 @@
             this.txtEndUV.Name = "txtEndUV";
             this.txtEndUV.Size = new System.Drawing.Size(100, 20);
             this.txtEndUV.TabIndex = 26;
+            this.txtEndUV.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEndUV_KeyDown);
             // 
             // Form1
             // 

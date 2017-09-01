@@ -650,76 +650,12 @@ namespace C_Tool
                     {
                         throw new widthException("awkward. i dont know what you are doing.");
                     }
-                    //        string[] values = txtStartText.Text.Split();
-
-                    //        if (Convert.ToInt32(values[0]) > pictureBox1.Width - rec.Width)
-                    //        {
-                    //            throw new widthException("The x coordinate you inputted is greater than the imagebox.Try a value that's lower.");
-                    //        }
-                    //        if (Convert.ToInt32(values[0]) < 0)
-                    //        {
-                    //            throw new widthException("The x coordinate you inputted is less than the imagebox.Try a value that's higher.");
-                    //        }
-                    //        if (Convert.ToInt32(values[1]) > pictureBox1.Height - rec.Height)
-                    //        {
-                    //            throw new heightException("The y coordinate you inputted is greater than the imagebox.Try a value that's lower.");
-                    //        }
-                    //        if (Convert.ToInt32(values[1]) < 0)
-                    //        {
-                    //            throw new heightException("The y coordinate you inputted is less than the imagebox.Try a value that's higher.");
-                    //        }
-                    //        Point tmpPnt = new Point(Convert.ToInt32(values[0]), Convert.ToInt32(values[1]));
-
-                    //        int tempW = rec.Location.X - Convert.ToInt32(values[0]);
-                    //        int tempH = rec.Location.Y - Convert.ToInt32(values[1]);
-
-                    //        //tempW = rec.Width;
-                    //        //tempH = rec.Height;
-
-
-                    //        rec.Location = tmpPnt;
-
-                    //        if (tempW >= 0)
-                    //        {
-                    //            rec.Width += tempW;
-                    //        }
-                    //        if (tempH >= 0)
-                    //        {
-                    //            rec.Height += tempH;
-                    //        }
-
-                    //        txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
-                    //        tmpPnt = new Point();
-
-                    //        //rec.Location = new Point(rec.Location.X + rec.Width, rec.Location.Y + rec.Height);
-                    //        //txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
-                    //    }
-
-
-                    //    catch (widthException ex)
-                    //    {
-                    //        MessageBox.Show(ex.Message);
-                    //        txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
-                    //    }
-                    //    catch (heightException ex)
-                    //    {
-                    //        MessageBox.Show(ex.Message);
-                    //        txtEndText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
-                    //    }
-
-                    //    catch
-                    //    {
-
-
-                    //        MessageBox.Show("Please input valid data for the start box. (Int Int)");
-                    //        txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
-                    //    }
-                    //}
+                    
                 }
-                catch (widthException ex)
+                catch (widthException ex)  
                 {
                     MessageBox.Show(ex.Message);
-                    txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
+                    //txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString() + " ";
                 }
                 catch
                 {
@@ -902,20 +838,113 @@ namespace C_Tool
 
         private void txtStartUV_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                string[] values = txtStartUV.Text.Split();
+           
+        }
 
-                if (Convert.ToDouble(values[0]) < 0.00 || Convert.ToDouble(values[0]) < 0.00)
+        private void txtStartUV_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                try
                 {
-                    throw new widthException("the UV inputted is less then the picturebox.");
+                    string[] values = txtStartUV.Text.Split();
+
+                    // If the UV inputted is less then 0. thats bad, so dont do it!
+                    if (Convert.ToDouble(values[0]) < 0.00 || Convert.ToDouble(values[1]) < 0.00)
+                    {
+                        throw new widthException("the UV inputted is less then the picturebox.");
+                    }
+                    
+
+
+                    // if they dont throw the exceptions, we want to caculate our position from the uv's provided.
+                    double startPosX = Convert.ToDouble(values[0]) * pictureBox1.Width;
+                    double startPosY = Convert.ToDouble(values[1]) * pictureBox1.Height;
+                    
+                    
+                    
+                    // If the UV inputted would be greater then the picturebox, then thats also bad!
+                    if (startPosX + rec.Width > pictureBox1.Width || startPosY + rec.Height > pictureBox1.Height)
+                    {
+                        throw new widthException("the UV inputter is greated then the picutrebox.");
+                    }
+                    var tempWidth = Convert.ToInt32(startPosX) + rec.Width;
+                    var tempHeight = Convert.ToInt32(startPosY) + rec.Height;
+
+                    // and then we want to set the position of the rec to be that of the calculation.
+
+                    rec.Location = new Point(Convert.ToInt32(startPosX), Convert.ToInt32(startPosY));
+                    //rec.Width = tempWidth;
+                    //rec.Height = tempHeight;
+
+
+                    // then we want to update the text fields so that the text reflects the new values.
+                    txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+                    txtStartUV.Text = Convert.ToDouble(values[0]).ToString("n2") + " " + Convert.ToDouble(values[1]).ToString("n2");
+                    txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+
+
+
+                    double endUVX = rec.Location.X + rec.Width;
+                    endUVX = endUVX / pictureBox1.Width;
+                    double endUVY = rec.Location.Y + rec.Height;
+                    endUVY = endUVY / pictureBox1.Height;
+
+                    txtEndUV.Text = endUVX.ToString("n2") + " " + endUVY.ToString("n2");
+
+
+
                 }
-              
+                catch (widthException ex)
+                {
+                    MessageBox.Show(ex.Message);
 
+                }
+                catch
+                {
+
+                }
             }
-            catch
-            {
+        }
 
+        private void txtEndUV_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    string[] values = txtEndUV.Text.Split();
+                    // If the UV inputted is less then 0. thats bad, so dont do it!
+                    if (Convert.ToDouble(values[0]) < (rec.Location.X / pictureBox1.Width)|| Convert.ToDouble(values[1]) < (rec.Location.Y / pictureBox1.Height))
+                    {
+                        throw new widthException("the UV inputted is less then the start point.");
+                    }
+                    double endPosX = Convert.ToDouble(values[0]) * Convert.ToDouble(pictureBox1.Width);
+                    double endPosY = Convert.ToDouble(values[1]) * Convert.ToDouble(pictureBox1.Height);
+                    if (endPosX > pictureBox1.Width || endPosY > pictureBox1.Height)
+                    {
+                        throw new widthException("the UV inputted is greater then the picturebox.");
+                    }
+                    rec.Width = Convert.ToInt32(endPosX) - rec.Location.X;
+                    rec.Height = Convert.ToInt32(endPosY) - rec.Location.Y;
+
+                    // then we want to update the text fields so that the text reflects the new values.
+                    txtStartText.Text = rec.Location.X.ToString() + " " + rec.Location.Y.ToString();
+
+                    double startuvx, startuvy;
+
+                    startuvx = Convert.ToDouble(rec.Location.X) / Convert.ToDouble(pictureBox1.Width);
+                    startuvy = Convert.ToDouble(rec.Location.Y) / Convert.ToDouble(pictureBox1.Height);
+
+                    txtStartUV.Text = startuvx.ToString("n2") + " " + startuvy.ToString("n2");
+                    txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
+                    //txtEndUV.Text = (rec.Location.X + rec.Width / pictureBox1.Width).ToString("n2") + " " + (rec.Location.Y + rec.Height / pictureBox1.Height).ToString("n2");
+                    txtEndUV.Text = (endPosX / pictureBox1.Width).ToString("n2") + " " + (endPosY / pictureBox1.Height).ToString("n2");
+                }
+                catch
+                {
+
+                }
             }
         }
 
