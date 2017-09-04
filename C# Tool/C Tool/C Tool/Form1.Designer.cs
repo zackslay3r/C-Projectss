@@ -39,10 +39,6 @@
             this.lblStartUV = new System.Windows.Forms.Label();
             this.lblEndUV = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.lblStartPText = new System.Windows.Forms.Label();
-            this.lblEndPText = new System.Windows.Forms.Label();
-            this.lblStartUvText = new System.Windows.Forms.Label();
-            this.lblEndUvText = new System.Windows.Forms.Label();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnDeleteItem = new System.Windows.Forms.Button();
@@ -55,13 +51,16 @@
             this.tmrClock = new System.Windows.Forms.Timer(this.components);
             this.pnlMainImage = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnTestAni = new System.Windows.Forms.Button();
             this.chkTestAni = new System.Windows.Forms.CheckBox();
             this.tmrAniTimer = new System.Windows.Forms.Timer(this.components);
             this.txtStartText = new System.Windows.Forms.TextBox();
             this.txtEndText = new System.Windows.Forms.TextBox();
             this.txtStartUV = new System.Windows.Forms.TextBox();
             this.txtEndUV = new System.Windows.Forms.TextBox();
+            this.txtWidth = new System.Windows.Forms.TextBox();
+            this.txtHeight = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblHeight = new System.Windows.Forms.Label();
             this.tlstrpMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -163,47 +162,6 @@
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             this.pictureBox2.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox2_Paint);
             // 
-            // lblStartPText
-            // 
-            this.lblStartPText.AutoSize = true;
-            this.lblStartPText.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblStartPText.Location = new System.Drawing.Point(802, 618);
-            this.lblStartPText.Name = "lblStartPText";
-            this.lblStartPText.Size = new System.Drawing.Size(10, 13);
-            this.lblStartPText.TabIndex = 7;
-            this.lblStartPText.Text = " ";
-            this.lblStartPText.Click += new System.EventHandler(this.lblStartPText_Click);
-            // 
-            // lblEndPText
-            // 
-            this.lblEndPText.AutoSize = true;
-            this.lblEndPText.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblEndPText.Location = new System.Drawing.Point(802, 660);
-            this.lblEndPText.Name = "lblEndPText";
-            this.lblEndPText.Size = new System.Drawing.Size(10, 13);
-            this.lblEndPText.TabIndex = 8;
-            this.lblEndPText.Text = " ";
-            // 
-            // lblStartUvText
-            // 
-            this.lblStartUvText.AutoSize = true;
-            this.lblStartUvText.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblStartUvText.Location = new System.Drawing.Point(802, 701);
-            this.lblStartUvText.Name = "lblStartUvText";
-            this.lblStartUvText.Size = new System.Drawing.Size(10, 13);
-            this.lblStartUvText.TabIndex = 9;
-            this.lblStartUvText.Text = " ";
-            // 
-            // lblEndUvText
-            // 
-            this.lblEndUvText.AutoSize = true;
-            this.lblEndUvText.BackColor = System.Drawing.SystemColors.Highlight;
-            this.lblEndUvText.Location = new System.Drawing.Point(802, 742);
-            this.lblEndUvText.Name = "lblEndUvText";
-            this.lblEndUvText.Size = new System.Drawing.Size(10, 13);
-            this.lblEndUvText.TabIndex = 10;
-            this.lblEndUvText.Text = " ";
-            // 
             // btnExport
             // 
             this.btnExport.Location = new System.Drawing.Point(429, 28);
@@ -232,6 +190,7 @@
             this.btnDeleteItem.TabIndex = 13;
             this.btnDeleteItem.Text = "&Delete Item";
             this.btnDeleteItem.UseVisualStyleBackColor = true;
+            this.btnDeleteItem.Visible = false;
             this.btnDeleteItem.Click += new System.EventHandler(this.btnDeleteItem_Click);
             // 
             // panel1
@@ -309,25 +268,15 @@
             this.panel2.Size = new System.Drawing.Size(164, 139);
             this.panel2.TabIndex = 20;
             // 
-            // btnTestAni
-            // 
-            this.btnTestAni.Location = new System.Drawing.Point(870, 27);
-            this.btnTestAni.Name = "btnTestAni";
-            this.btnTestAni.Size = new System.Drawing.Size(164, 23);
-            this.btnTestAni.TabIndex = 21;
-            this.btnTestAni.Text = "Test Ani?";
-            this.btnTestAni.UseVisualStyleBackColor = true;
-            this.btnTestAni.Click += new System.EventHandler(this.btnTestAni_Click);
-            // 
             // chkTestAni
             // 
             this.chkTestAni.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkTestAni.AutoSize = true;
-            this.chkTestAni.Location = new System.Drawing.Point(918, 81);
+            this.chkTestAni.Location = new System.Drawing.Point(870, 28);
             this.chkTestAni.Name = "chkTestAni";
-            this.chkTestAni.Size = new System.Drawing.Size(53, 23);
+            this.chkTestAni.Size = new System.Drawing.Size(164, 23);
             this.chkTestAni.TabIndex = 22;
-            this.chkTestAni.Text = "TestAni";
+            this.chkTestAni.Text = "Test Animation";
+            this.chkTestAni.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkTestAni.UseVisualStyleBackColor = true;
             this.chkTestAni.CheckedChanged += new System.EventHandler(this.chkTestAni_CheckedChanged);
             // 
@@ -371,17 +320,54 @@
             this.txtEndUV.TabIndex = 26;
             this.txtEndUV.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEndUV_KeyDown);
             // 
+            // txtWidth
+            // 
+            this.txtWidth.Location = new System.Drawing.Point(946, 564);
+            this.txtWidth.Name = "txtWidth";
+            this.txtWidth.Size = new System.Drawing.Size(100, 20);
+            this.txtWidth.TabIndex = 27;
+            this.txtWidth.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtWidth_KeyDown);
+            // 
+            // txtHeight
+            // 
+            this.txtHeight.Location = new System.Drawing.Point(946, 610);
+            this.txtHeight.Name = "txtHeight";
+            this.txtHeight.Size = new System.Drawing.Size(100, 20);
+            this.txtHeight.TabIndex = 28;
+            this.txtHeight.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtHeight_KeyDown);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(888, 571);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "Width";
+            // 
+            // lblHeight
+            // 
+            this.lblHeight.AutoSize = true;
+            this.lblHeight.Location = new System.Drawing.Point(888, 616);
+            this.lblHeight.Name = "lblHeight";
+            this.lblHeight.Size = new System.Drawing.Size(38, 13);
+            this.lblHeight.TabIndex = 30;
+            this.lblHeight.Text = "Height";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1058, 772);
+            this.Controls.Add(this.lblHeight);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtHeight);
+            this.Controls.Add(this.txtWidth);
             this.Controls.Add(this.txtEndUV);
             this.Controls.Add(this.txtStartUV);
             this.Controls.Add(this.txtEndText);
             this.Controls.Add(this.txtStartText);
             this.Controls.Add(this.chkTestAni);
-            this.Controls.Add(this.btnTestAni);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.pnlMainImage);
             this.Controls.Add(this.btnClearArea);
@@ -392,10 +378,6 @@
             this.Controls.Add(this.btnDeleteItem);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnExport);
-            this.Controls.Add(this.lblEndUvText);
-            this.Controls.Add(this.lblStartUvText);
-            this.Controls.Add(this.lblEndPText);
-            this.Controls.Add(this.lblStartPText);
             this.Controls.Add(this.lblEndUV);
             this.Controls.Add(this.lblStartUV);
             this.Controls.Add(this.lblEndP);
@@ -428,10 +410,6 @@
         private System.Windows.Forms.Label lblStartUV;
         private System.Windows.Forms.Label lblEndUV;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label lblStartPText;
-        private System.Windows.Forms.Label lblEndPText;
-        private System.Windows.Forms.Label lblStartUvText;
-        private System.Windows.Forms.Label lblEndUvText;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnDeleteItem;
@@ -444,13 +422,16 @@
         public System.Windows.Forms.ListBox lstItems;
         private System.Windows.Forms.Panel pnlMainImage;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button btnTestAni;
         private System.Windows.Forms.CheckBox chkTestAni;
         private System.Windows.Forms.Timer tmrAniTimer;
         private System.Windows.Forms.TextBox txtStartText;
         private System.Windows.Forms.TextBox txtEndText;
         private System.Windows.Forms.TextBox txtStartUV;
         private System.Windows.Forms.TextBox txtEndUV;
+        private System.Windows.Forms.TextBox txtWidth;
+        private System.Windows.Forms.TextBox txtHeight;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblHeight;
     }
 }
 

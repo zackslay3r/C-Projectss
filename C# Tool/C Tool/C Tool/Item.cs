@@ -15,6 +15,9 @@ namespace C_Tool
         public PointD startUVpoint = new PointD();
         public PointD endUVpoint = new PointD();
 
+        public int width;
+        public int height;
+
         public Rectangle rectangle = new Rectangle();
 
         
