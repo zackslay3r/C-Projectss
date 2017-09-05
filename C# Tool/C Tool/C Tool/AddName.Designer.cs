@@ -53,9 +53,9 @@
             // 
             this.btnNameRegester.Location = new System.Drawing.Point(105, 236);
             this.btnNameRegester.Name = "btnNameRegester";
-            this.btnNameRegester.Size = new System.Drawing.Size(75, 23);
+            this.btnNameRegester.Size = new System.Drawing.Size(94, 23);
             this.btnNameRegester.TabIndex = 2;
-            this.btnNameRegester.Text = "button1";
+            this.btnNameRegester.Text = "Submit Name";
             this.btnNameRegester.UseVisualStyleBackColor = true;
             this.btnNameRegester.Click += new System.EventHandler(this.btnNameRegester_Click);
             // 

@@ -283,7 +283,7 @@
             // tmrAniTimer
             // 
             this.tmrAniTimer.Enabled = true;
-            this.tmrAniTimer.Interval = 1000;
+            this.tmrAniTimer.Interval = 200;
             this.tmrAniTimer.Tick += new System.EventHandler(this.tmrAniTimer_Tick);
             // 
             // txtStartText

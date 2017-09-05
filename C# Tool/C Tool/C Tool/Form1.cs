@@ -567,7 +567,7 @@ namespace C_Tool
                 try
                 {
 
-                    int value = Convert.ToInt32(txtWidth.Text);
+                    int value = Convert.ToInt32(txtHeight.Text);
                     // we cant have a height of 0.
                     if (value < 0)
                     {
@@ -966,7 +966,8 @@ namespace C_Tool
                     myStream.Write(items.ElementAt(i).startUVpoint.y.ToString("n2") + " ");
                     myStream.Write(items.ElementAt(i).endUVpoint.x.ToString("n2") + " ");
                     myStream.Write(items.ElementAt(i).endUVpoint.y.ToString("n2") + " ");
-                    
+                    myStream.Write(items.ElementAt(i).width.ToString() + " ");
+                    myStream.Write(items.ElementAt(i).height.ToString() + " ");
                     startOfFile = false;
                 }
 
@@ -1306,47 +1307,7 @@ namespace C_Tool
             if (e.KeyCode == Keys.Enter)
             {
 
-                //try
-                //{
-
-                //    int value = Convert.ToInt32(txtWidth.Text);
-                //    // we cant have a height of 0.
-                //    if (value < 0)
-                //    {
-                //        throw new widthException("you cannot have the rectangle be a width of 0.");
-                //    }
-                //    // we also cant have our height be greater then that of the picturebox.
-                //    if (rec.Location.Y + value > pictureBox1.Width)
-                //    {
-                //        throw new widthException("you cannot have the rectangle be a width greater then the picturebox.");
-                //    }
-                //    rec.Height = value;
-
-                //    double endPosX = Convert.ToDouble(rec.Location.X + rec.Width) * Convert.ToDouble(pictureBox1.Width);
-                //    double endPosY = Convert.ToDouble(rec.Location.Y + rec.Height) * Convert.ToDouble(pictureBox1.Height);
-
-                //    double startuvx = Convert.ToDouble(rec.Location.X) / Convert.ToDouble(pictureBox1.Width);
-                //    double startuvy = Convert.ToDouble(rec.Location.Y) / Convert.ToDouble(pictureBox1.Height);
-                //    txtStartText.Text = rec.Location.X + " " + rec.Location.Y;
-                //    txtStartUV.Text = startuvx.ToString("n2") + " " + startuvy.ToString("n2");
-
-                //    double endUVx = Convert.ToDouble(rec.Location.X + rec.Width) / Convert.ToDouble(pictureBox1.Width);
-                //    double endUVy = Convert.ToDouble(rec.Location.Y + rec.Height) / Convert.ToDouble(pictureBox1.Height);
-
-                //    txtEndText.Text = (rec.Location.X + rec.Width).ToString() + " " + (rec.Location.Y + rec.Height).ToString();
-                //    txtEndUV.Text = endUVx.ToString("n2") + " " + endUVy.ToString("n2");
-                //    txtWidth.Text = rec.Width.ToString();
-                //    txtHeight.Text = rec.Height.ToString();
-
-                //}
-                //catch (widthException ex)
-                //{
-                //    MessageBox.Show(ex.Message);
-
-                //}
-                //catch
-                //{
-                //}
+         
                 changeInfo("height");
             }
         }
